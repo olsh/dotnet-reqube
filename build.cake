@@ -1,4 +1,6 @@
 #tool nuget:?package=MSBuild.SonarQube.Runner.Tool
+#tool nuget:?package=JetBrains.ReSharper.CommandLineTools
+
 #addin nuget:?package=Cake.Sonar
 
 var target = Argument("target", "Default");
@@ -8,6 +10,8 @@ var projectName = "dotnet-reqube";
 var projectFolder = string.Format("./src/{0}/", projectName);
 var solutionFile = string.Format("./src/{0}.sln", projectName);
 var projectFile = string.Format("./src/{0}/{0}.csproj", projectName);
+var sonarQubeReport = MakeAbsolute(File("./sonarqube-report.json"));
+var reSharperReport = MakeAbsolute(File("./resharper-report.xml"));
 
 var extensionsVersion = XmlPeek(projectFile, "Project/PropertyGroup[1]/VersionPrefix/text()");
 
@@ -31,7 +35,24 @@ Task("Build")
     DotNetCoreBuild(solutionFile, settings);
 });
 
+Task("ReSharperInspect")
+  .Does(() =>
+{
+    InspectCode(solutionFile, new InspectCodeSettings {
+		 SolutionWideAnalysis = true,
+         OutputFile = File("resharper-report.xml")
+	});
+});
+
+Task("ConverReSharperToSonar")
+  .IsDependentOn("ReSharperInspect")
+  .Does(() =>
+{
+	StartProcess("dotnet-reqube", $"-i {reSharperReport} -o {sonarQubeReport}");
+});
+
 Task("SonarBegin")
+  .IsDependentOn("ConverReSharperToSonar")
   .Does(() => {
      SonarBegin(new SonarBeginSettings {
         Url = "https://sonarcloud.io",
@@ -39,7 +60,8 @@ Task("SonarBegin")
         Key = "dotnet-reqube",
         Name = "dotnet reqube",
         ArgumentCustomization = args => args
-            .Append($"/o:olsh-github"),
+            .Append("/o:olsh-github")
+            .Append("/d:sonar.externalIssuesReportPaths=" + sonarQubeReport),
         Version = extensionsVersion
      });
   });

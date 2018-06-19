@@ -11,10 +11,11 @@ namespace ReQube.Models
         public static IDictionary<string, string> ReSharperToSonarQubeSeverityMap =>
             new Dictionary<string, string>
                 {
-                    { "ERROR", "CRITICAL" },
-                    { "WARNING", "MAJOR" },
-                    { "SUGGESTION", "MINOR" },
-                    { "HINT", "INFO" }
+                    { "ERROR", "BLOCKER" },
+                    { "WARNING", "CRITICAL" },
+                    { "SUGGESTION", "MAJOR" },
+                    { "HINT", "MINOR" },
+                    { "INFO", "INFO" }
                 };
     }
 }

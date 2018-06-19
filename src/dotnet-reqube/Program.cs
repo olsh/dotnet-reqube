@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 
 using CommandLine;
@@ -28,10 +29,24 @@ namespace ReQube
                 var report = (Report)serializer.Deserialize(reader);
                 reader.Dispose();
 
-                var sonarQubeReport = Map(report);
+                var sonarQubeReports = Map(report);
 
-                Console.WriteLine("Writing output file {0}", opts.Output);
-                File.WriteAllText(opts.Output, JsonConvert.SerializeObject(sonarQubeReport));
+                foreach (var sonarQubeReport in sonarQubeReports)
+                {
+                    var projectDirectory = !string.IsNullOrEmpty(opts.Directory)
+                                               ? Path.Combine(opts.Directory, sonarQubeReport.ProjectName)
+                                               : Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), sonarQubeReport.ProjectName);
+
+                    if (!Directory.Exists(projectDirectory))
+                    {
+                        Directory.CreateDirectory(projectDirectory);
+                    }
+
+                    var filePath = Path.Combine(projectDirectory, opts.Output);
+
+                    Console.WriteLine("Writing output files {0}", filePath);
+                    File.WriteAllText(filePath, JsonConvert.SerializeObject(sonarQubeReport));
+                }
             }
             catch (Exception e)
             {
@@ -54,14 +69,16 @@ namespace ReQube
                 .WithNotParsed(errs => HandleParseError(errs));
         }
 
-        private static SonarQubeReport Map(Report report)
+        private static IEnumerable<SonarQubeReport> Map(Report report)
         {
             var reportIssueTypes = report.IssueTypes.ToDictionary(t => t.Id, type => type);
 
-            var sonarQubeReport = new SonarQubeReport { Issues = new LinkedList<Issue>() };
+            var sonarQubeReports = new List<SonarQubeReport>();
 
             foreach (var project in report.Issues)
             {
+                var sonarQubeReport = new SonarQubeReport { ProjectName = project.Name };
+                var replaceFileNameRegex = new Regex($@"^{Regex.Escape(project.Name)}\\");
                 foreach (var issue in project.Issue)
                 {
                     if (!reportIssueTypes.TryGetValue(issue.TypeId, out ReportIssueType issueType))
@@ -100,7 +117,7 @@ namespace ReQube
                                                  PrimaryLocation =
                                                      new PrimaryLocation
                                                          {
-                                                             FilePath = issue.File,
+                                                             FilePath = replaceFileNameRegex.Replace(issue.File, string.Empty),
                                                              Message = issueType.Description,
                                                              TextRange =
                                                                  new TextRange
@@ -114,9 +131,11 @@ namespace ReQube
 
                     sonarQubeReport.Issues.Add(sonarQubeIssue);
                 }
+
+                sonarQubeReports.Add(sonarQubeReport);
             }
 
-            return sonarQubeReport;
+            return sonarQubeReports;
         }
     }
 }
