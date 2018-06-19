@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2035
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotnet-reqube", "dotnet-reqube\dotnet-reqube.csproj", "{FD048F48-3EE8-4FB4-9B2A-62C7E299C156}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1CF68F23-7D47-4C38-B510-BF18F2FEE63F}"
+	ProjectSection(SolutionItems) = preProject
+		..\build.cake = ..\build.cake
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FD048F48-3EE8-4FB4-9B2A-62C7E299C156}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD048F48-3EE8-4FB4-9B2A-62C7E299C156}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD048F48-3EE8-4FB4-9B2A-62C7E299C156}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD048F48-3EE8-4FB4-9B2A-62C7E299C156}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B2F523C7-A9D1-4D8B-84CE-23D7933C728B}
+	EndGlobalSection
+EndGlobal
