@@ -116,12 +116,12 @@ namespace ReQube
                                                      new PrimaryLocation
                                                          {
                                                              FilePath = replaceFileNameRegex.Replace(issue.File, string.Empty),
-                                                             Message = issueType.Description,
+                                                             Message = issue.Message,
                                                              TextRange =
                                                                  new TextRange
                                                                      {
-                                                                         // SonarQube lines are not zero-based
-                                                                         StartLine = issue.Line + 1
+                                                                         // For some reason, some issues doesn't have line, but actually they are on the first one
+                                                                         StartLine = issue.Line > 0 ? issue.Line : 1
                                                                      }
                                                          }
                                              };
