@@ -17,6 +17,8 @@ namespace ReQube
 {
     internal class Program
     {
+        private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+
         private static void Convert(Options opts)
         {
             StreamReader reader = null;
@@ -35,7 +37,7 @@ namespace ReQube
                 {
                     var projectDirectory = !string.IsNullOrEmpty(opts.Directory)
                                                ? Path.Combine(opts.Directory, sonarQubeReport.ProjectName)
-                                               : Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), sonarQubeReport.ProjectName);
+                                               : sonarQubeReport.ProjectName;
 
                     if (!Directory.Exists(projectDirectory))
                     {
@@ -45,7 +47,8 @@ namespace ReQube
                     var filePath = Path.Combine(projectDirectory, opts.Output);
 
                     Console.WriteLine("Writing output files {0}", filePath);
-                    File.WriteAllText(filePath, JsonConvert.SerializeObject(sonarQubeReport));
+
+                    File.WriteAllText(filePath, JsonConvert.SerializeObject(sonarQubeReport, JsonSerializerSettings));
                 }
             }
             catch (Exception e)
@@ -95,19 +98,6 @@ namespace ReQube
                         continue;
                     }
 
-                    var offsets = issue.Offset.Split('-');
-                    int startColumn = 0;
-                    if (offsets.Length > 0 && int.TryParse(offsets[0], out int start))
-                    {
-                        startColumn = start;
-                    }
-
-                    int endColumn = 0;
-                    if (offsets.Length > 0 && int.TryParse(offsets[0], out int end))
-                    {
-                        endColumn = end;
-                    }
-
                     var sonarQubeIssue = new Issue
                                              {
                                                  EngineId = Constants.EngineId,
@@ -122,9 +112,7 @@ namespace ReQube
                                                              TextRange =
                                                                  new TextRange
                                                                      {
-                                                                         StartLine = issue.Line,
-                                                                         StartColumn = startColumn,
-                                                                         EndColumn = endColumn
+                                                                         StartLine = issue.Line
                                                                      }
                                                          }
                                              };

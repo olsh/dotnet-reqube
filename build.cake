@@ -10,8 +10,6 @@ var projectName = "dotnet-reqube";
 var projectFolder = string.Format("./src/{0}/", projectName);
 var solutionFile = string.Format("./src/{0}.sln", projectName);
 var projectFile = string.Format("./src/{0}/{0}.csproj", projectName);
-var sonarQubeReport = MakeAbsolute(File("./sonarqube-report.json"));
-var reSharperReport = MakeAbsolute(File("./resharper-report.xml"));
 
 var extensionsVersion = XmlPeek(projectFile, "Project/PropertyGroup[1]/VersionPrefix/text()");
 
@@ -48,7 +46,7 @@ Task("ConverReSharperToSonar")
   .IsDependentOn("ReSharperInspect")
   .Does(() =>
 {
-	StartProcess("dotnet-reqube", $"-i {reSharperReport} -o {sonarQubeReport}");
+	StartProcess("dotnet-reqube", $"-i resharper-report.xml -o sonarqube-report.json -d {MakeAbsolute(Directory("./src/"))}");
 });
 
 Task("SonarBegin")
@@ -61,7 +59,7 @@ Task("SonarBegin")
         Name = "dotnet reqube",
         ArgumentCustomization = args => args
             .Append("/o:olsh-github")
-            .Append("/d:sonar.externalIssuesReportPaths=" + sonarQubeReport),
+            .Append("/d:sonar.externalIssuesReportPaths=sonarqube-report.json"),
         Version = extensionsVersion
      });
   });

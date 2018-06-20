@@ -7,7 +7,7 @@ namespace ReQube.Models.SonarQube
     public class Issue
     {
         [JsonProperty("effortMinutes")]
-        public int EffortMinutes { get; set; }
+        public int? EffortMinutes { get; set; }
 
         [JsonProperty("engineId")]
         public string EngineId { get; set; }
