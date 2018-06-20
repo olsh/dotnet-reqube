@@ -37,16 +37,16 @@ Task("ReSharperInspect")
   .Does(() =>
 {
     InspectCode(solutionFile, new InspectCodeSettings {
-		 SolutionWideAnalysis = true,
+         SolutionWideAnalysis = true,
          OutputFile = File("resharper-report.xml")
-	});
+    });
 });
 
 Task("ConverReSharperToSonar")
   .IsDependentOn("ReSharperInspect")
   .Does(() =>
 {
-	StartProcess("dotnet-reqube", $"-i resharper-report.xml -o sonarqube-report.json -d {MakeAbsolute(Directory("./src/"))}");
+    StartProcess("dotnet-reqube", $"-i resharper-report.xml -o sonarqube-report.json -d {MakeAbsolute(Directory("./src/"))}");
 });
 
 Task("SonarBegin")

@@ -33,6 +33,9 @@ namespace ReQube
 
                 var sonarQubeReports = Map(report);
 
+                // We need to write dummy report because SonarQube MSBuild reads a report from the root
+                WriteReport(string.IsNullOrEmpty(opts.Directory) ? opts.Output : Path.Combine(opts.Directory, opts.Output), new SonarQubeReport());
+
                 foreach (var sonarQubeReport in sonarQubeReports)
                 {
                     var projectDirectory = !string.IsNullOrEmpty(opts.Directory)
@@ -46,9 +49,7 @@ namespace ReQube
 
                     var filePath = Path.Combine(projectDirectory, opts.Output);
 
-                    Console.WriteLine("Writing output files {0}", filePath);
-
-                    File.WriteAllText(filePath, JsonConvert.SerializeObject(sonarQubeReport, JsonSerializerSettings));
+                    WriteReport(filePath, sonarQubeReport);
                 }
             }
             catch (Exception e)
@@ -59,6 +60,13 @@ namespace ReQube
             {
                 reader?.Dispose();
             }
+        }
+
+        private static void WriteReport(string filePath, SonarQubeReport sonarQubeReport)
+        {
+            Console.WriteLine("Writing output files {0}", filePath);
+
+            File.WriteAllText(filePath, JsonConvert.SerializeObject(sonarQubeReport, JsonSerializerSettings));
         }
 
         private static void HandleParseError(IEnumerable<Error> errs)
@@ -112,7 +120,8 @@ namespace ReQube
                                                              TextRange =
                                                                  new TextRange
                                                                      {
-                                                                         StartLine = issue.Line
+                                                                         // SonarQube lines are not zero-based
+                                                                         StartLine = issue.Line + 1
                                                                      }
                                                          }
                                              };
