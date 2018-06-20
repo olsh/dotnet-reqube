@@ -6,6 +6,5 @@ build_script:
 - cmd: PowerShell -Version 2.0 .\build.ps1 -Target CI
 test: off
 cache:
-  - '%USERPROFILE%\.nuget\packages'
   - tools
   - '%USERPROFILE%\.sonar\cache'
