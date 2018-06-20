@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <Description>A tool that converts ReSharper inspect code report to SonarQube format</Description>
     <VersionPrefix>1.0.3</VersionPrefix>
     <Authors>Oleg Shevchenko</Authors>
     <PackageTags>resharper, sonarqube</PackageTags>

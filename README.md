@@ -4,7 +4,7 @@
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=dotnet-reqube&metric=alert_status)](https://sonarcloud.io/dashboard?id=dotnet-reqube)
 [![NuGet](https://img.shields.io/nuget/v/dotnet-reqube.svg)](https://www.nuget.org/packages/dotnet-reqube/)
 
-.NET Core global tool that converts ReSharper inspect code report to SonarQube format
+.NET Core global tool that converts [ReSharper inspect code](https://www.jetbrains.com/help/resharper/InspectCode.html) report to [SonarQube format](https://docs.sonarqube.org/display/SONAR/Generic+Issue+Data)
 
 ## Installation
 
