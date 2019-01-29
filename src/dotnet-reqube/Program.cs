@@ -122,7 +122,7 @@ namespace ReQube
                                                      new PrimaryLocation
                                                          {
                                                              FilePath = replaceFileNameRegex.Replace(issue.File, string.Empty),
-                                                             Message = $"{issue.Message} {issueType.WikiUrl}",
+                                                             Message = issue.Message,
                                                              TextRange =
                                                                  new TextRange
                                                                      {

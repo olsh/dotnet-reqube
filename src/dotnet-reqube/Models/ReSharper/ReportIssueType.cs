@@ -13,8 +13,6 @@ namespace ReQube.Models.ReSharper
 
         private string _severityField;
 
-        private string _wikiUrlField;
-
         [XmlAttribute]
         public string Id
         {
@@ -29,14 +27,6 @@ namespace ReQube.Models.ReSharper
             get => _severityField;
             // ReSharper disable once UnusedMember.Global
             set => _severityField = value;
-        }
-
-        [XmlAttribute]
-        public string WikiUrl
-        {
-            get => _wikiUrlField;
-            // ReSharper disable once UnusedMember.Global
-            set => _wikiUrlField = value;
         }
     }
 }
