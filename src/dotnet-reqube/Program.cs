@@ -82,7 +82,7 @@ namespace ReQube
         private static void Main(string[] args)
         {
             Parser.Default.ParseArguments<Options>(args)
-                .WithParsed(opts => Convert(opts))
+                .WithParsed(Convert)
                 .WithNotParsed(errs => HandleParseError());
         }
 

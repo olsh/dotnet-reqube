@@ -36,6 +36,7 @@ namespace ReQube.Models.ReSharper
         public ReportIssueType[] IssueTypes
         {
             get => _issueTypesField;
+            // ReSharper disable once UnusedMember.Global
             set => _issueTypesField = value;
         }
     }
