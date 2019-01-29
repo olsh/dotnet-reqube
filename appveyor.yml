@@ -4,7 +4,7 @@ install:
   - dotnet tool install -g dotnet-reqube
   - dotnet tool install -g Cake.Tool --version 0.31.0 
 build_script:
-- cmd: dotnet cake -Target CI
+- cmd: dotnet cake -Target=CI
 test: off
 cache:
   - tools
