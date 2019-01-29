@@ -22,6 +22,12 @@ Task("UpdateBuildVersion")
     BuildSystem.AppVeyor.UpdateBuildVersion(string.Format("{0}.{1}", extensionsVersion, buildNumber));
 });
 
+Task("NugetRestore")
+  .Does(() =>
+{
+    DotNetCoreRestore(solutionFile);
+});
+
 Task("Build")
   .Does(() =>
 {
@@ -34,7 +40,7 @@ Task("Build")
 });
 
 Task("ReSharperInspect")
-  .IsDependentOn("Build")
+  .IsDependentOn("NugetRestore")
   .Does(() =>
 {
     InspectCode(solutionFile, new InspectCodeSettings {
