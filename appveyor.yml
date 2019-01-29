@@ -2,7 +2,7 @@ version: 1.0.{build}
 image: Visual Studio 2017
 install:
   - dotnet tool install -g dotnet-reqube
-  - dotnet tool install -g cake
+  - dotnet tool install -g Cake.Tool --version 0.31.0 
 build_script:
 - cmd: dotnet cake -Target CI
 test: off
