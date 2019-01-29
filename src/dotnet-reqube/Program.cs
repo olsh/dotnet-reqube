@@ -9,48 +9,49 @@ using CommandLine;
 
 using Newtonsoft.Json;
 
+using Onion.SolutionParser.Parser;
+
 using ReQube.Models;
 using ReQube.Models.ReSharper;
 using ReQube.Models.SonarQube;
 
 namespace ReQube
 {
-    internal class Program
+    internal static class Program
     {
         private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
 
-        private static void Convert(Options opts)
+        private static void Convert(Options options)
         {
             StreamReader reader = null;
             try
             {
                 var serializer = new XmlSerializer(typeof(Report));
 
-                Console.WriteLine("Reading input file {0}", opts.Input);
-                reader = new StreamReader(opts.Input);
+                Console.WriteLine("Reading input file {0}", options.Input);
+                reader = new StreamReader(options.Input);
                 var report = (Report)serializer.Deserialize(reader);
                 reader.Dispose();
 
                 var sonarQubeReports = Map(report);
 
                 // We need to write dummy report because SonarQube MSBuild reads a report from the root
-                WriteReport(string.IsNullOrEmpty(opts.Directory) ? opts.Output : Path.Combine(opts.Directory, opts.Output), new SonarQubeReport());
+                WriteReport(CombineOutputPath(options, options.Output), SonarQubeReport.Empty);
 
                 foreach (var sonarQubeReport in sonarQubeReports)
                 {
-                    var projectDirectory = !string.IsNullOrEmpty(opts.Directory)
-                                               ? Path.Combine(opts.Directory, sonarQubeReport.ProjectName)
-                                               : sonarQubeReport.ProjectName;
-
+                    var projectDirectory = CombineOutputPath(options, sonarQubeReport.ProjectName);
                     if (!Directory.Exists(projectDirectory))
                     {
                         Directory.CreateDirectory(projectDirectory);
                     }
 
-                    var filePath = Path.Combine(projectDirectory, opts.Output);
+                    var filePath = Path.Combine(projectDirectory, options.Output);
 
                     WriteReport(filePath, sonarQubeReport);
                 }
+
+                TryWriteMissingReports(report.Information.Solution, options, sonarQubeReports);
             }
             catch (Exception e)
             {
@@ -62,6 +63,11 @@ namespace ReQube
             }
         }
 
+        private static string CombineOutputPath(Options options, string directory)
+        {
+            return string.IsNullOrEmpty(options.Directory) ? directory : Path.Combine(options.Directory, directory);
+        }
+
         private static void WriteReport(string filePath, SonarQubeReport sonarQubeReport)
         {
             Console.WriteLine("Writing output files {0}", filePath);
@@ -69,7 +75,7 @@ namespace ReQube
             File.WriteAllText(filePath, JsonConvert.SerializeObject(sonarQubeReport, JsonSerializerSettings));
         }
 
-        private static void HandleParseError(IEnumerable<Error> errs)
+        private static void HandleParseError()
         {
         }
 
@@ -77,10 +83,10 @@ namespace ReQube
         {
             Parser.Default.ParseArguments<Options>(args)
                 .WithParsed(opts => Convert(opts))
-                .WithNotParsed(errs => HandleParseError(errs));
+                .WithNotParsed(errs => HandleParseError());
         }
 
-        private static IEnumerable<SonarQubeReport> Map(Report report)
+        private static List<SonarQubeReport> Map(Report report)
         {
             var reportIssueTypes = report.IssueTypes.ToDictionary(t => t.Id, type => type);
 
@@ -116,7 +122,7 @@ namespace ReQube
                                                      new PrimaryLocation
                                                          {
                                                              FilePath = replaceFileNameRegex.Replace(issue.File, string.Empty),
-                                                             Message = issue.Message,
+                                                             Message = $"{issue.Message} {issueType.WikiUrl}",
                                                              TextRange =
                                                                  new TextRange
                                                                      {
@@ -133,6 +139,35 @@ namespace ReQube
             }
 
             return sonarQubeReports;
+        }
+
+        private static void TryWriteMissingReports(string solutionFile, Options options, List<SonarQubeReport> sonarQubeReports)
+        {
+            try
+            {
+                var solution = SolutionParser.Parse(solutionFile);
+                foreach (var project in solution.Projects)
+                {
+                    // We should skip solution directories
+                    if (!project.Path.EndsWith(".csproj"))
+                    {
+                        continue;
+                    }
+
+                    if (sonarQubeReports.Any(r => string.Equals(r.ProjectName, project.Name, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        continue;
+                    }
+
+                    var projectPath = Path.GetDirectoryName(project.Path);
+                    var reportPath = CombineOutputPath(options, Path.Combine(projectPath, options.Output));
+                    WriteReport(reportPath, SonarQubeReport.Empty);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
     }
 }

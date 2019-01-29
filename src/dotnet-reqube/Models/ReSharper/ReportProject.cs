@@ -17,6 +17,7 @@ namespace ReQube.Models.ReSharper
         public ReportProjectIssue[] Issue
         {
             get => _issueField;
+            // ReSharper disable once UnusedMember.Global
             set => _issueField = value;
         }
 
@@ -24,6 +25,7 @@ namespace ReQube.Models.ReSharper
         public string Name
         {
             get => _nameField;
+            // ReSharper disable once UnusedMember.Global
             set => _nameField = value;
         }
     }

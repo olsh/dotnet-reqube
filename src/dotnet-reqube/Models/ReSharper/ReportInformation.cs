@@ -9,19 +9,12 @@ namespace ReQube.Models.ReSharper
     [XmlType(AnonymousType = true)]
     public class ReportInformation
     {
-        private ReportInformationInspectionScope _inspectionScopeField;
-
         private string _solutionField;
-
-        public ReportInformationInspectionScope InspectionScope
-        {
-            get => _inspectionScopeField;
-            set => _inspectionScopeField = value;
-        }
 
         public string Solution
         {
             get => _solutionField;
+            // ReSharper disable once UnusedMember.Global
             set => _solutionField = value;
         }
     }

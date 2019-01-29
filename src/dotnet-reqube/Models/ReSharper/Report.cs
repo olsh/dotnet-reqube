@@ -17,11 +17,10 @@ namespace ReQube.Models.ReSharper
 
         private ReportIssueType[] _issueTypesField;
 
-        private string _toolsVersionField;
-
         public ReportInformation Information
         {
             get => _informationField;
+            // ReSharper disable once UnusedMember.Global
             set => _informationField = value;
         }
 
@@ -29,6 +28,7 @@ namespace ReQube.Models.ReSharper
         public ReportProject[] Issues
         {
             get => _issuesField;
+            // ReSharper disable once UnusedMember.Global
             set => _issuesField = value;
         }
 
@@ -37,13 +37,6 @@ namespace ReQube.Models.ReSharper
         {
             get => _issueTypesField;
             set => _issueTypesField = value;
-        }
-
-        [XmlAttribute]
-        public string ToolsVersion
-        {
-            get => _toolsVersionField;
-            set => _toolsVersionField = value;
         }
     }
 }

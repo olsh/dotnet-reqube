@@ -11,6 +11,9 @@ namespace ReQube.Models.SonarQube
             Issues = new LinkedList<Issue>();
         }
 
+        [JsonIgnore]
+        public static SonarQubeReport Empty { get; } = new SonarQubeReport();
+
         [JsonProperty("issues")]
         public ICollection<Issue> Issues { get; set; }
 

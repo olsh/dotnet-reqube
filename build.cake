@@ -1,7 +1,7 @@
-#tool nuget:?package=MSBuild.SonarQube.Runner.Tool
-#tool nuget:?package=JetBrains.ReSharper.CommandLineTools
+#tool nuget:?package=MSBuild.SonarQube.Runner.Tool&version=4.3.1
+#tool nuget:?package=JetBrains.ReSharper.CommandLineTools&version=2018.3.1
 
-#addin nuget:?package=Cake.Sonar
+#addin nuget:?package=Cake.Sonar&version=1.1.18
 
 var target = Argument("target", "Default");
 
@@ -34,10 +34,10 @@ Task("Build")
 });
 
 Task("ReSharperInspect")
+  .IsDependentOn("Build")
   .Does(() =>
 {
     InspectCode(solutionFile, new InspectCodeSettings {
-         SolutionWideAnalysis = true,
          OutputFile = File("resharper-report.xml")
     });
 });

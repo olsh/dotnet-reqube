@@ -2,7 +2,7 @@
 
 namespace ReQube.Models
 {
-    public class Constants
+    public static class Constants
     {
         public const string EngineId = "R#";
 
