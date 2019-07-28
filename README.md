@@ -12,7 +12,11 @@
 
 ## Usage
 
+Create report for all projects in solution:
 `dotnet-reqube -i ResharperReport.xml -o SonarQubeReportFileName.json -d Path\To\Output\Directory`
+
+Create report for a single project in solution:
+`dotnet-reqube -i ReSharperReport.xml -o SonarQubeReportFileName.json -d Path\To\Output\Directory -p ProjectToReport`
 
 ## Demo
 
