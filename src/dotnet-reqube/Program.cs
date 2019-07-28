@@ -40,13 +40,7 @@ namespace ReQube
 
                 foreach (var sonarQubeReport in sonarQubeReports)
                 {
-                    var projectDirectory = CombineOutputPath(options, sonarQubeReport.ProjectName);
-                    if (!Directory.Exists(projectDirectory))
-                    {
-                        Directory.CreateDirectory(projectDirectory);
-                    }
-
-                    var filePath = Path.Combine(projectDirectory, options.Output);
+                    var filePath = CombineOutputPath(options, Path.Combine(sonarQubeReport.ProjectName, options.Output));
 
                     WriteReport(filePath, sonarQubeReport);
                 }
@@ -71,6 +65,12 @@ namespace ReQube
         private static void WriteReport(string filePath, SonarQubeReport sonarQubeReport)
         {
             Console.WriteLine("Writing output files {0}", filePath);
+
+            var projectDirectory = Path.GetDirectoryName(filePath);
+            if (projectDirectory != null && !Directory.Exists(projectDirectory))
+            {
+                Directory.CreateDirectory(projectDirectory);
+            }
 
             File.WriteAllText(filePath, JsonConvert.SerializeObject(sonarQubeReport, JsonSerializerSettings));
         }
