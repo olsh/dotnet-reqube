@@ -36,16 +36,24 @@ namespace ReQube
                 var sonarQubeReports = Map(report);
 
                 // We need to write dummy report because SonarQube MSBuild reads a report from the root
-                WriteReport(CombineOutputPath(options, options.Output), SonarQubeReport.Empty);
-
-                foreach (var sonarQubeReport in sonarQubeReports)
+                if (string.IsNullOrEmpty(options.Project))
                 {
-                    var filePath = CombineOutputPath(options, Path.Combine(sonarQubeReport.ProjectName, options.Output));
+                    WriteReport(CombineOutputPath(options, options.Output), SonarQubeReport.Empty);
 
-                    WriteReport(filePath, sonarQubeReport);
+                    foreach (var sonarQubeReport in sonarQubeReports)
+                    {
+                        var filePath = CombineOutputPath(options, Path.Combine(sonarQubeReport.ProjectName, options.Output));
+
+                        WriteReport(filePath, sonarQubeReport);
+                    }
+
+                    TryWriteMissingReports(report.Information.Solution, options, sonarQubeReports);
                 }
-
-                TryWriteMissingReports(report.Information.Solution, options, sonarQubeReports);
+                else
+                {
+                    var projectToWrite = sonarQubeReports.FirstOrDefault(r => string.Equals(r.ProjectName, options.Project, StringComparison.OrdinalIgnoreCase));
+                    WriteReport(CombineOutputPath(options, options.Output), projectToWrite ?? SonarQubeReport.Empty);
+                }
             }
             catch (Exception e)
             {
