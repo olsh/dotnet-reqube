@@ -75,15 +75,20 @@ namespace ReQube
             File.WriteAllText(filePath, JsonConvert.SerializeObject(sonarQubeReport, JsonSerializerSettings));
         }
 
-        private static void HandleParseError()
+        private static void HandleParseError(IEnumerable<Error> errors)
         {
+            Console.WriteLine("The following parsing errors occurred when parsing the solution file");
+            foreach (var error in errors)
+            {
+                Console.WriteLine("Type {0} StopProcessing {1}", error.Tag, error.StopsProcessing);
+            }
         }
 
         private static void Main(string[] args)
         {
             Parser.Default.ParseArguments<Options>(args)
                 .WithParsed(Convert)
-                .WithNotParsed(errs => HandleParseError());
+                .WithNotParsed(errors => HandleParseError(errors));
         }
 
         private static List<SonarQubeReport> Map(Report report)
