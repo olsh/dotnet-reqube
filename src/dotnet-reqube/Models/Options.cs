@@ -17,7 +17,7 @@ namespace ReQube.Models
         // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public string Directory { get; set; }
 
-        [Option('p', "project", Required = true,
+        [Option('p', "project", Required = false,
             HelpText = "Project to create SonarQube report for. If not set, a report is written for all projects found in the solution.")]
         // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public string Project { get; set; }
