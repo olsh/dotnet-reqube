@@ -52,6 +52,10 @@ namespace ReQube
                 else
                 {
                     var projectToWrite = sonarQubeReports.FirstOrDefault(r => string.Equals(r.ProjectName, options.Project, StringComparison.OrdinalIgnoreCase));
+                    if (projectToWrite == null)
+                    {
+                        Console.WriteLine("Project " + options.Project + " not found or it contains no issues.");
+                    }
                     WriteReport(CombineOutputPath(options, options.Output), projectToWrite ?? SonarQubeReport.Empty);
                 }
             }
