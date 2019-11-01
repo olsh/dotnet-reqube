@@ -46,7 +46,7 @@ namespace ReQube
 
                         foreach (var sonarQubeReport in sonarQubeReports)
                         {
-                            var filePath = CombineOutputPath(options,Path.Combine(GetFolderProject(solution,sonarQubeReport.ProjectName), options.Output));
+                            var filePath = CombineOutputPath(options, Path.Combine(GetFolderProject(solution, sonarQubeReport.ProjectName), options.Output));
                             WriteReport(filePath, sonarQubeReport);
                         }
 
@@ -64,6 +64,7 @@ namespace ReQube
                     {
                         Console.WriteLine("Project " + options.Project + " not found or it contains no issues.");
                     }
+
                     WriteReport(CombineOutputPath(options, options.Output), projectToWrite ?? SonarQubeReport.Empty);
                 }
             }
@@ -79,8 +80,12 @@ namespace ReQube
 
         private static string GetFolderProject(ISolution solution, string projectName)
         {
-            var path = solution.Projects.Where(x => x.Name == projectName).Select(x=>x.Path).FirstOrDefault();
-            return path!=null ? Path.GetDirectoryName(path) : projectName;
+            var path = solution.Projects
+                .Where(x => x.Name == projectName)
+                .Select(x => x.Path)
+                .FirstOrDefault();
+
+            return path != null ? Path.GetDirectoryName(path) : projectName;
         }
 
         private static string CombineOutputPath(Options options, string directory)
