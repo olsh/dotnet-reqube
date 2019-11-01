@@ -10,7 +10,7 @@ using CommandLine;
 using Newtonsoft.Json;
 
 using Onion.SolutionParser.Parser;
-
+using Onion.SolutionParser.Parser.Model;
 using ReQube.Models;
 using ReQube.Models.ReSharper;
 using ReQube.Models.SonarQube;
@@ -38,16 +38,24 @@ namespace ReQube
                 // We need to write dummy report because SonarQube MSBuild reads a report from the root
                 if (string.IsNullOrEmpty(options.Project))
                 {
-                    WriteReport(CombineOutputPath(options, options.Output), SonarQubeReport.Empty);
-
-                    foreach (var sonarQubeReport in sonarQubeReports)
+                    try
                     {
-                        var filePath = CombineOutputPath(options, Path.Combine(sonarQubeReport.ProjectName, options.Output));
+                        var solution = SolutionParser.Parse(report.Information.Solution);
 
-                        WriteReport(filePath, sonarQubeReport);
+                        WriteReport(CombineOutputPath(options, options.Output), SonarQubeReport.Empty);
+
+                        foreach (var sonarQubeReport in sonarQubeReports)
+                        {
+                            var filePath = CombineOutputPath(options,Path.Combine(GetFolderProject(solution,sonarQubeReport.ProjectName), options.Output));
+                            WriteReport(filePath, sonarQubeReport);
+                        }
+
+                        TryWriteMissingReports(solution, options, sonarQubeReports);
                     }
-
-                    TryWriteMissingReports(report.Information.Solution, options, sonarQubeReports);
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
                 }
                 else
                 {
@@ -67,6 +75,12 @@ namespace ReQube
             {
                 reader?.Dispose();
             }
+        }
+
+        private static string GetFolderProject(ISolution solution, string projectName)
+        {
+            var path = solution.Projects.Where(x => x.Name == projectName).Select(x=>x.Path).FirstOrDefault();
+            return path!=null ? Path.GetDirectoryName(path) : projectName;
         }
 
         private static string CombineOutputPath(Options options, string directory)
@@ -158,11 +172,10 @@ namespace ReQube
             return sonarQubeReports;
         }
 
-        private static void TryWriteMissingReports(string solutionFile, Options options, List<SonarQubeReport> sonarQubeReports)
+        private static void TryWriteMissingReports(ISolution solution, Options options, List<SonarQubeReport> sonarQubeReports)
         {
             try
             {
-                var solution = SolutionParser.Parse(solutionFile);
                 foreach (var project in solution.Projects)
                 {
                     // We should skip solution directories
