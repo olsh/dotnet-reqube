@@ -81,7 +81,7 @@ namespace ReQube
         private static string GetFolderProject(ISolution solution, string projectName)
         {
             var path = solution.Projects
-                .Where(x => x.Name == projectName)
+                .Where(x => x.Name == projectName  && x.TypeGuid != Constants.ProyectTypeGuids["Solution Folder"])
                 .Select(x => x.Path)
                 .FirstOrDefault();
 
