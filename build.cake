@@ -1,5 +1,5 @@
 #tool nuget:?package=MSBuild.SonarQube.Runner.Tool&version=4.6.0
-#tool nuget:?package=JetBrains.ReSharper.CommandLineTools&version=2019.1.3
+#tool nuget:?package=JetBrains.ReSharper.CommandLineTools&version=2019.3.1
 
 #addin nuget:?package=Cake.Sonar&version=1.1.22
 

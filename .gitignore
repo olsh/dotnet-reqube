@@ -331,7 +331,6 @@ ASALocalRun/
 
 # Cake
 tools/*
-!tools/packages.config
 
 # SonarQube
 .sonarqube/
