@@ -2,7 +2,7 @@
 
 using Newtonsoft.Json;
 
-namespace ReQube.Models.SonarQube
+namespace ReQube.Models.SonarQube.Generic
 {
     public class Issue
     {

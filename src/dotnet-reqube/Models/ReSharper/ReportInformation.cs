@@ -9,13 +9,6 @@ namespace ReQube.Models.ReSharper
     [XmlType(AnonymousType = true)]
     public class ReportInformation
     {
-        private string _solutionField;
-
-        public string Solution
-        {
-            get => _solutionField;
-            // ReSharper disable once UnusedMember.Global
-            set => _solutionField = value;
-        }
+        public string Solution { get; set; }
     }
 }

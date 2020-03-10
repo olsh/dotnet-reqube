@@ -1,0 +1,314 @@
+﻿[
+  {
+    "issues": [
+      {
+        "engineId": "R#",
+        "primaryLocation": {
+          "filePath": "{sourceRoot}/Resources/ReSharperTest/Test1/Program.cs",
+          "message": "Using directive is not required by the code and can be safely removed",
+          "textRange": {
+            "endColumn": 14,
+            "endLine": 1,
+            "startColumn": 1,
+            "startLine": 1
+          }
+        },
+        "ruleId": "RedundantUsingDirective",
+        "severity": "MAJOR",
+        "type": "CODE_SMELL"
+      },
+      {
+        "engineId": "R#",
+        "primaryLocation": {
+          "filePath": "{sourceRoot}/Resources/ReSharperTest/Test1/Program.cs",
+          "message": "Using directive is not required by the code and can be safely removed",
+          "textRange": {
+            "endColumn": 29,
+            "endLine": 4,
+            "startColumn": 1,
+            "startLine": 4
+          }
+        },
+        "ruleId": "RedundantUsingDirective",
+        "severity": "MAJOR",
+        "type": "CODE_SMELL"
+      },
+      {
+        "engineId": "R#",
+        "primaryLocation": {
+          "filePath": "{sourceRoot}/Resources/ReSharperTest/Test1/Program.cs",
+          "message": "Namespace does not correspond to file location, should be: 'Test1'",
+          "textRange": {
+            "endColumn": 30,
+            "endLine": 6,
+            "startColumn": 11,
+            "startLine": 6
+          }
+        },
+        "ruleId": "CheckNamespace",
+        "severity": "MAJOR",
+        "type": "CODE_SMELL"
+      },
+      {
+        "engineId": "R#",
+        "primaryLocation": {
+          "filePath": "{sourceRoot}/Resources/ReSharperTest/Test1/Program.cs",
+          "message": "Auto-property accessor is never used",
+          "textRange": {
+            "endColumn": 35,
+            "endLine": 11,
+            "startColumn": 31,
+            "startLine": 11
+          }
+        },
+        "ruleId": "UnusedAutoPropertyAccessor.Local",
+        "severity": "MAJOR",
+        "type": "CODE_SMELL"
+      },
+      {
+        "engineId": "R#",
+        "primaryLocation": {
+          "filePath": "{sourceRoot}/Resources/ReSharperTest/Test1/Program.cs",
+          "message": "Parameter 'args' is never used",
+          "textRange": {
+            "endColumn": 39,
+            "endLine": 13,
+            "startColumn": 35,
+            "startLine": 13
+          }
+        },
+        "ruleId": "UnusedParameter.Local",
+        "severity": "MAJOR",
+        "type": "CODE_SMELL"
+      },
+      {
+        "engineId": "R#",
+        "primaryLocation": {
+          "filePath": "{sourceRoot}/Resources/ReSharperTest/Test1/Program.cs",
+          "message": "Parameter 'redundantArg' is never used",
+          "textRange": {
+            "endColumn": 37,
+            "endLine": 18,
+            "startColumn": 25,
+            "startLine": 18
+          }
+        },
+        "ruleId": "UnusedParameter.Local",
+        "severity": "MAJOR",
+        "type": "CODE_SMELL"
+      },
+      {
+        "engineId": "R#",
+        "primaryLocation": {
+          "filePath": "{sourceRoot}/Resources/ReSharperTest/Test1/Program.cs",
+          "message": "Local variable 'streamReader' is never used",
+          "textRange": {
+            "endColumn": 29,
+            "endLine": 21,
+            "startColumn": 17,
+            "startLine": 21
+          }
+        },
+        "ruleId": "UnusedVariable",
+        "severity": "MAJOR",
+        "type": "CODE_SMELL"
+      },
+      {
+        "engineId": "R#",
+        "primaryLocation": {
+          "filePath": "{sourceRoot}/Resources/ReSharperTest/Test1/Program.cs",
+          "message": "Method 'Process' is never used",
+          "textRange": {
+            "endColumn": 21,
+            "endLine": 24,
+            "startColumn": 14,
+            "startLine": 24
+          }
+        },
+        "ruleId": "UnusedMember.Local",
+        "severity": "MAJOR",
+        "type": "CODE_SMELL"
+      },
+      {
+        "engineId": "R#",
+        "primaryLocation": {
+          "filePath": "{sourceRoot}/Resources/ReSharperTest/Test1/Program.cs",
+          "message": "Optional parameters must appear after all required parameters",
+          "textRange": {
+            "endColumn": 54,
+            "endLine": 24,
+            "startColumn": 48,
+            "startLine": 24
+          }
+        },
+        "ruleId": "CSharpErrors",
+        "severity": "CRITICAL",
+        "type": "CODE_SMELL"
+      },
+      {
+        "engineId": "R#",
+        "primaryLocation": {
+          "filePath": "{sourceRoot}/Resources/ReSharperTest/Test1/Program.cs",
+          "message": "Parameter 'x' is never used",
+          "textRange": {
+            "endColumn": 61,
+            "endLine": 24,
+            "startColumn": 60,
+            "startLine": 24
+          }
+        },
+        "ruleId": "UnusedParameter.Local",
+        "severity": "MAJOR",
+        "type": "CODE_SMELL"
+      }
+    ]
+  },
+  {
+    "issues": [
+      {
+        "engineId": "R#",
+        "primaryLocation": {
+          "filePath": "{sourceRoot}/Resources/ReSharperTest/Test2/src/Class1.cs",
+          "message": "Using directive is not required by the code and can be safely removed",
+          "textRange": {
+            "endColumn": 14,
+            "endLine": 1,
+            "startColumn": 1,
+            "startLine": 1
+          }
+        },
+        "ruleId": "RedundantUsingDirective",
+        "severity": "MAJOR",
+        "type": "CODE_SMELL"
+      },
+      {
+        "engineId": "R#",
+        "primaryLocation": {
+          "filePath": "{sourceRoot}/Resources/ReSharperTest/Test2/src/Class1.cs",
+          "message": "Class 'Class1' is never used",
+          "textRange": {
+            "endColumn": 24,
+            "endLine": 5,
+            "startColumn": 18,
+            "startLine": 5
+          }
+        },
+        "ruleId": "UnusedType.Global",
+        "severity": "MINOR",
+        "type": "CODE_SMELL"
+      },
+      {
+        "engineId": "R#",
+        "primaryLocation": {
+          "filePath": "{sourceRoot}/Resources/ReSharperTest/Test2/src/Class1.cs",
+          "message": "Method 'func' is never used",
+          "textRange": {
+            "endColumn": 25,
+            "endLine": 7,
+            "startColumn": 21,
+            "startLine": 7
+          }
+        },
+        "ruleId": "UnusedMember.Global",
+        "severity": "MINOR",
+        "type": "CODE_SMELL"
+      },
+      {
+        "engineId": "R#",
+        "primaryLocation": {
+          "filePath": "{sourceRoot}/Resources/ReSharperTest/Test2/src/Class1.cs",
+          "message": "Name 'func' does not match rule 'Methods'. Suggested name is 'Func'.",
+          "textRange": {
+            "endColumn": 25,
+            "endLine": 7,
+            "startColumn": 21,
+            "startLine": 7
+          }
+        },
+        "ruleId": "InconsistentNaming",
+        "severity": "MAJOR",
+        "type": "CODE_SMELL"
+      },
+      {
+        "engineId": "R#",
+        "primaryLocation": {
+          "filePath": "{sourceRoot}/Resources/ReSharperTest/Test2/src/Class1.cs",
+          "message": "Local variable 'd' is never used",
+          "textRange": {
+            "endColumn": 56,
+            "endLine": 7,
+            "startColumn": 55,
+            "startLine": 7
+          }
+        },
+        "ruleId": "UnusedVariable",
+        "severity": "MAJOR",
+        "type": "CODE_SMELL"
+      },
+      {
+        "engineId": "R#",
+        "primaryLocation": {
+          "filePath": "{sourceRoot}/Resources/ReSharperTest/Test2/src/Class1.cs",
+          "message": "Local variable 'c' might not be initialized before accessing",
+          "textRange": {
+            "endColumn": 69,
+            "endLine": 7,
+            "startColumn": 68,
+            "startLine": 7
+          }
+        },
+        "ruleId": "CSharpErrors",
+        "severity": "CRITICAL",
+        "type": "CODE_SMELL"
+      },
+      {
+        "engineId": "R#",
+        "primaryLocation": {
+          "filePath": "{sourceRoot}/Resources/ReSharperTest/Test2/src/Class1.cs",
+          "message": "Method 'Func2' is never used",
+          "textRange": {
+            "endColumn": 26,
+            "endLine": 9,
+            "startColumn": 21,
+            "startLine": 9
+          }
+        },
+        "ruleId": "UnusedMember.Global",
+        "severity": "MINOR",
+        "type": "CODE_SMELL"
+      },
+      {
+        "engineId": "R#",
+        "primaryLocation": {
+          "filePath": "{sourceRoot}/Resources/ReSharperTest/Test2/src/Class1.cs",
+          "message": "Empty control statement body",
+          "textRange": {
+            "endColumn": 39,
+            "endLine": 12,
+            "startColumn": 38,
+            "startLine": 12
+          }
+        },
+        "ruleId": "EmptyEmbeddedStatement",
+        "severity": "MAJOR",
+        "type": "CODE_SMELL"
+      },
+      {
+        "engineId": "R#",
+        "primaryLocation": {
+          "filePath": "{sourceRoot}/Resources/ReSharperTest/Test2/src/Class1.cs",
+          "message": "Method 'Test' can be made private",
+          "textRange": {
+            "endColumn": 15,
+            "endLine": 15,
+            "startColumn": 9,
+            "startLine": 15
+          }
+        },
+        "ruleId": "MemberCanBePrivate.Global",
+        "severity": "MINOR",
+        "type": "CODE_SMELL"
+      }
+    ]
+  }
+]
