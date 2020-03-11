@@ -1,7 +1,7 @@
 #tool nuget:?package=MSBuild.SonarQube.Runner.Tool&version=4.6.0
 #tool nuget:?package=JetBrains.ReSharper.CommandLineTools&version=2019.3.1
 #addin nuget:?package=Cake.Sonar&version=1.1.22
-#addin "Cake.FileHelpers"
+#addin "Cake.FileHelpers&version=3.2.1"
 
 // set the following envrionement variables before running the cake build:
 // sonar:organization, sonar:apikey, sonar:projectKey, sonar:projectName, nuget:projectName,
@@ -79,44 +79,29 @@ var isMasterBranch = StringComparer.OrdinalIgnoreCase.Equals("master", branch);
 var isPullRequest = BuildSystem.AppVeyor.Environment.PullRequest.IsPullRequest;
 
 Task("UpdateBuildVersion")
-  .WithCriteria(BuildSystem.AppVeyor.IsRunningOnAppVeyor)
-  .Does(() =>
-{
-    var buildNumber = BuildSystem.AppVeyor.Environment.Build.Number;
-
-    BuildSystem.AppVeyor.UpdateBuildVersion(string.Format("{0}.{1}", extensionsVersion, buildNumber));
-});
+    .WithCriteria(BuildSystem.AppVeyor.IsRunningOnAppVeyor)
+    .Does(() =>
+    {
+        var buildNumber = BuildSystem.AppVeyor.Environment.Build.Number;
+        BuildSystem.AppVeyor.UpdateBuildVersion(string.Format("{0}.{1}", extensionsVersion, buildNumber));
+    });
 
 Task("NugetRestore")
-  .Does(() =>
-{
-    DotNetCoreRestore(solutionFile);
-});
+    .Does(() =>
+    {
+        DotNetCoreRestore(solutionFile);
+    });
 
 Task("Build")
-  .Does(() =>
-{
-    var settings = new DotNetCoreBuildSettings
+    .Does(() =>
     {
-        Configuration = buildConfiguration,
-        MSBuildSettings = 
-            new DotNetCoreMSBuildSettings()
-                .WithProperty(
-                    "PackageReleaseNotes", 
-                    EnvironmentVariable("packageReleaseNotes") ?? "https://github.com/olsh/reqube/releases")
-                .WithProperty(
-                    "PackageProjectUrl", 
-                    EnvironmentVariable("packageProjectUrl") ?? "https://github.com/olsh/reqube")
-                .WithProperty(
-                    "PackageLicenseUrl", 
-                    EnvironmentVariable("packageLicenseUrl") ?? "https://raw.githubusercontent.com/olsh/reqube/master/LICENSE")
-                .WithProperty(
-                    "RepositoryUrl", 
-                    EnvironmentVariable("repositoryUrl") ?? "https://github.com/olsh/reqube")
-    };
+        var settings = new DotNetCoreBuildSettings
+        {
+            Configuration = buildConfiguration
+        };
 
-    DotNetCoreBuild(solutionFile, settings);
-});
+        DotNetCoreBuild(solutionFile, settings);
+    });
 
 Task("Test")
     .IsDependentOn("Build")
@@ -157,85 +142,109 @@ Task("Test")
             new CoverletTool(
                 cxt.FileSystem, cxt.Environment, cxt.ProcessRunner, cxt.Tools).Run(dllFile, project, coverletSettings);
         }    
-});
-
-Task("ReSharperInspect")
-  .IsDependentOn("NugetRestore")
-  .Does(() =>
-{
-    InspectCode(solutionFile, new InspectCodeSettings {
-         OutputFile = File("resharper-report.xml")
     });
 
-    if (isPullRequest)
+Task("ReSharperInspect")
+    .IsDependentOn("NugetRestore")
+    .Does(() =>
     {
-        var reSharperOutput = FileReadText("resharper-report.xml");
-        Console.WriteLine("ReSharper analysis results:");
-        Console.WriteLine(reSharperOutput);
-    }
-});
+        InspectCode(
+            solutionFile, 
+            new InspectCodeSettings 
+            {
+                OutputFile = File("resharper-report.xml")
+            });
+
+        if (isPullRequest)
+        {
+            var reSharperOutput = FileReadText("resharper-report.xml");
+            Console.WriteLine("ReSharper analysis results:");
+            Console.WriteLine(reSharperOutput);
+        }
+    });
 
 Task("ConvertReSharperToSonar")
-  .WithCriteria(!isPullRequest)
-  .IsDependentOn("ReSharperInspect")
-  .Does(() =>
-{
-    StartProcess("dotnet-reqube", $"-i resharper-report.xml -o sonarqube-report.json -d {MakeAbsolute(Directory("./src/"))}");
-});
+    .WithCriteria(!isPullRequest)
+    .IsDependentOn("ReSharperInspect")
+    .Does(() =>
+    {
+        StartProcess(
+            "dotnet-reqube", 
+            $"-i resharper-report.xml -o sonarqube-report.json -d {MakeAbsolute(Directory("./src/"))}");
+    });
 
 // Sonar Analysis is not possible on PRs right now, without exposing the user token, which is a vulnerability;
 // https://jira.sonarsource.com/browse/MMF-1371
 Task("SonarBegin")
-  .IsDependentOn("ConvertReSharperToSonar")
-  .WithCriteria(!isPullRequest)
-  .Does(() => {
-     SonarBegin(new SonarBeginSettings {
-        Url = "https://sonarcloud.io",
-        Login = EnvironmentVariable("sonar:apikey"),
-        Key = sonarProjectKey,
-        Name = sonarProjectName,
-        ArgumentCustomization = args => args
-            .Append($"/o:{sonarOrganization}")
-            .Append("/d:sonar.externalIssuesReportPaths=sonarqube-report.json")
-            .Append("/d:sonar.cs.opencover.reportsPaths=\"coverage-results/coverage.opencover.xml\"")
-            .Append("/d:sonar.coverage.exclusions=\"**Test*.cs\"")
-            .Append(
-                BuildSystem.AppVeyor.IsRunningOnAppVeyor && !isMasterBranch ? $"/d:sonar.branch.name={branch}" : ""),
-        Version = extensionsVersion
-     });
-  });
+    .IsDependentOn("ConvertReSharperToSonar")
+    .WithCriteria(!isPullRequest)
+    .Does(() => 
+    {
+        SonarBegin(
+            new SonarBeginSettings {
+                Url = "https://sonarcloud.io",
+                Login = EnvironmentVariable("sonar:apikey"),
+                Key = sonarProjectKey,
+                Name = sonarProjectName,
+                ArgumentCustomization = args => args
+                    .Append($"/o:{sonarOrganization}")
+                    .Append("/d:sonar.externalIssuesReportPaths=sonarqube-report.json")
+                    .Append("/d:sonar.cs.opencover.reportsPaths=\"coverage-results/coverage.opencover.xml\"")
+                    .Append("/d:sonar.coverage.exclusions=\"**Test*.cs\"")
+                    .Append(
+                        BuildSystem.AppVeyor.IsRunningOnAppVeyor 
+                            && !isMasterBranch ? $"/d:sonar.branch.name={branch}" : ""),
+                Version = extensionsVersion
+            });
+    });
 
 Task("SonarEnd")
-  .WithCriteria(!isPullRequest)
-  .Does(() => {
-     SonarEnd(new SonarEndSettings {
-        Login = EnvironmentVariable("sonar:apikey")
-     });
-  });
+    .WithCriteria(!isPullRequest)
+    .Does(() => 
+    {
+        SonarEnd(
+            new SonarEndSettings 
+            {
+                Login = EnvironmentVariable("sonar:apikey")
+            });
+    });
 
 Task("NugetPack")
-  .IsDependentOn("Build")
-  .Does(() =>
-{
-     var settings = new DotNetCorePackSettings
-     {
-         Configuration = buildConfiguration,
-         OutputDirectory = ".",
-         NoBuild = true,
-         ArgumentCustomization = args => args.Append($"-p:PackageId={nugetProjectName}")
-     };
+    .IsDependentOn("Build")
+    .Does(() =>
+    {      
+        var packageReleaseNotes = 
+            EnvironmentVariable("packageReleaseNotes") ?? "https://github.com/olsh/reqube/releases";
+        var packageProjectUrl = EnvironmentVariable("packageProjectUrl") ?? "https://github.com/olsh/reqube";
+        var packageLicenseUrl = 
+            EnvironmentVariable("packageLicenseUrl") ?? "https://raw.githubusercontent.com/olsh/reqube/master/LICENSE";
+        var repositoryUrl = EnvironmentVariable("repositoryUrl") ?? "https://github.com/olsh/reqube"; 
 
-     DotNetCorePack(projectFolder, settings);
-});
+        var settings = new DotNetCorePackSettings
+        {
+            Configuration = buildConfiguration,
+            OutputDirectory = ".",
+            NoBuild = true,
+            ArgumentCustomization = 
+                args => args
+                    .Append($"-p:PackageId={nugetProjectName}")
+                    .Append($"-p:PackageReleaseNotes={packageReleaseNotes}")
+                    .Append($"-p:PackageProjectUrl={packageProjectUrl}")
+                    .Append($"-p:PackageLicenseUrl={packageLicenseUrl}")
+                    .Append($"-p:RepositoryUrl={repositoryUrl}")
+        };
+
+        DotNetCorePack(projectFolder, settings);
+    });
 
 Task("CreateArtifact")
-  .IsDependentOn("NugetPack")
-  .WithCriteria(BuildSystem.AppVeyor.IsRunningOnAppVeyor)
-  .WithCriteria(isMasterBranch)
-  .Does(() =>
-{
-    BuildSystem.AppVeyor.UploadArtifact(string.Format("{0}.{1}.nupkg", nugetProjectName, extensionsVersion));
-});
+    .IsDependentOn("NugetPack")
+    .WithCriteria(BuildSystem.AppVeyor.IsRunningOnAppVeyor)
+    .WithCriteria(isMasterBranch)
+    .Does(() =>
+    {
+        BuildSystem.AppVeyor.UploadArtifact(string.Format("{0}.{1}.nupkg", nugetProjectName, extensionsVersion));
+    });
 
 Task("Default")
     .IsDependentOn("NugetPack");
