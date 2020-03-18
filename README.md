@@ -34,7 +34,7 @@ for which a report is generated.
 E.g.
 
 ```
-dotnet-reqube -i ResharperReport.xml -o <ProjectName>.ReSharper.RoslynCA.json -f Roslyn
+dotnet-reqube -i ResharperReport.xml -o "<ProjectName>.dll.ReSharper.RoslynCA.json" -f Roslyn
 ```
 
 To send the generated Roslyn-like reports to SonarQube/SonarCloud, using 
@@ -47,7 +47,7 @@ Find the line `
 and add `<SonarReSharperErrorLog>$(TargetDir)$(TargetFileName).ReSharper.RoslynCA.json</SonarReSharperErrorLog>` 
 after it.
 
-**Note:** If you use output file different from `<ProjectName>.ReSharper.RoslynCA.json`, then `$(TargetFileName).ReSharper.RoslynCA.json`
+**Note:** If you use output file different from `<ProjectName>.dll.ReSharper.RoslynCA.json`, then `$(TargetFileName).ReSharper.RoslynCA.json`
 should be adjusted accordingly.
 
 In the same targets file, find `<SonarReportFilePath Condition=" $(SonarCompileErrorLog) != '' AND  $([System.IO.File]::Exists($(SonarCompileErrorLog))) == 'true' " Include="$(SonarCompileErrorLog)" />` 
