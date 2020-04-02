@@ -13,11 +13,12 @@ namespace ReQube.Tests
         {
             var sonarConverterMock = new Mock<ISonarConverter>();
             var programMock = new Mock<Program> { CallBase = true };
-            programMock.Protected().Setup<ISonarConverter>("GetSonarConverter").Returns(sonarConverterMock.Object);
+            programMock.Protected().Setup<ISonarConverter>(
+                "GetSonarConverter", ItExpr.IsAny<Options>()).Returns(sonarConverterMock.Object);
             programMock.Protected().Setup("Exit", ItExpr.Is<int>(c => c == 1));
             programMock.Object.Run(new[] { "-i r#" });
             programMock.Protected().Verify("Exit", Times.Once(), ItExpr.Is<int>(c => c == 1));
-            sonarConverterMock.Verify(c => c.Convert(It.IsAny<Options>()), Times.Never());
+            sonarConverterMock.Verify(c => c.Convert(), Times.Never());
         }
 
         [Fact]
@@ -25,9 +26,10 @@ namespace ReQube.Tests
         {
             var sonarConverterMock = new Mock<ISonarConverter>();
             var programMock = new Mock<Program> { CallBase = true };
-            programMock.Protected().Setup<ISonarConverter>("GetSonarConverter").Returns(sonarConverterMock.Object);
+            programMock.Protected().Setup<ISonarConverter>(
+                "GetSonarConverter", ItExpr.IsAny<Options>()).Returns(sonarConverterMock.Object);
             programMock.Protected().Setup("Exit", ItExpr.IsAny<int>());
-            sonarConverterMock.Setup(c => c.Convert(It.IsAny<Options>())).Throws<Exception>();            
+            sonarConverterMock.Setup(c => c.Convert()).Throws<Exception>();            
             Assert.Throws<Exception>(() => programMock.Object.Run(new[] { "-i", "input", "-o", "output" }));
             programMock.Protected().Verify("Exit", Times.Never(), ItExpr.IsAny<int>());
         }
@@ -37,11 +39,12 @@ namespace ReQube.Tests
         {
             var sonarConverterMock = new Mock<ISonarConverter>();
             var programMock = new Mock<Program> { CallBase = true };
-            programMock.Protected().Setup<ISonarConverter>("GetSonarConverter").Returns(sonarConverterMock.Object);
+            programMock.Protected().Setup<ISonarConverter>(
+                "GetSonarConverter", ItExpr.IsAny<Options>()).Returns(sonarConverterMock.Object);
             programMock.Protected().Setup("Exit", ItExpr.IsAny<int>());
             programMock.Object.Run(new[] { "--help" });
             programMock.Protected().Verify("Exit", Times.Never(), ItExpr.IsAny<int>());
-            sonarConverterMock.Verify(c => c.Convert(It.IsAny<Options>()), Times.Never());
+            sonarConverterMock.Verify(c => c.Convert(), Times.Never());
         }
 
         [Fact]
@@ -49,7 +52,9 @@ namespace ReQube.Tests
         {
             var sonarConverterMock = new Mock<ISonarConverter>();
             var programMock = new Mock<Program> { CallBase = true };
-            programMock.Protected().Setup<ISonarConverter>("GetSonarConverter").Returns(sonarConverterMock.Object);
+
+            programMock.Protected().Setup<ISonarConverter>(
+                "GetSonarConverter", ItExpr.IsAny<Options>()).Returns(sonarConverterMock.Object);
             programMock.Protected().Setup("Exit", ItExpr.IsAny<int>());
             programMock.Object.Run(new[] {
                 "-i", 
@@ -60,17 +65,19 @@ namespace ReQube.Tests
                 "./repo/test-sln", 
                 "-p", 
                 "./repo/test-sln/proj1.csproj", 
-                "-f", "Roslyn" });
+                "-f", "Roslyn",
+                "--exclude-rules", "rule1, rule2"});
             programMock.Protected().Verify("Exit", Times.Never(), ItExpr.IsAny<int>());
-            sonarConverterMock.Verify(
-                c => c.Convert(
-                    It.Is<Options>(o => 
-                        o.Input == "input.xml" 
-                        && o.Output == "sonar.json" 
-                        && o.Directory == "./repo/test-sln" 
-                        && o.Project == "./repo/test-sln/proj1.csproj"
-                        && o.OutputFormat == SonarOutputFormat.Roslyn)), 
-                Times.Once());
+            programMock.Protected().Verify(
+                "GetSonarConverter",
+                Times.Once(),
+                ItExpr.Is<Options>(o =>
+                    o.Input == "input.xml"
+                    && o.Output == "sonar.json"
+                    && o.Directory == "./repo/test-sln"
+                    && o.Project == "./repo/test-sln/proj1.csproj"
+                    && o.OutputFormat == SonarOutputFormat.Roslyn
+                    && o.ExcludedRules == "rule1, rule2"));
         }
     }
 }

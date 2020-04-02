@@ -37,5 +37,22 @@ namespace ReQube.Models
             Default = SonarOutputFormat.Generic)]
         // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public SonarOutputFormat OutputFormat { get; set; }
+
+        [Option(
+            "exclude-rules",
+            Required = false,
+            HelpText = 
+                "Specify the ReSharper rules to be excluded from the analysis (Issue[TypeId] from ReSharper's output). " 
+                + "The format is <type id>[##<message regex>]|<type id>[##<message regex>]..." 
+                + "E.g. CSharpErrors##The modifier 'public'.*|UnusedMemberInSuper.Global|NotAccessedField.Global")]
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
+        public string ExcludedRules { get; set; }
+
+        [Option(
+            "sonar-dir",
+            Required = false,
+            HelpText = "The path to the .sonarqube directory of the executing sonar analysis.")]
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
+        public string SonarDirectory { get; set; }
     }
 }

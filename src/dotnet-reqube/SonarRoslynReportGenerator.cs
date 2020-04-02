@@ -34,7 +34,8 @@ namespace ReQube
                     var issueType = issueTypes[issue.TypeId];
                     var ruleId = $"ReSharper.{issue.TypeId}";
                     var details = string.IsNullOrWhiteSpace(issueType.WikiUrl)
-                        ? string.Empty : $" Click <a href=\"{issueType.WikiUrl}\">here</a> for details.";
+                        ? string.Empty 
+                        : $" Click <a href=\"{issueType.WikiUrl}\" target=\"_blank\">here</a> for details.";
 
                     var rule = new Rule
                     {

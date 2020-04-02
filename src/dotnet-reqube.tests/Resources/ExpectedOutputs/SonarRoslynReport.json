@@ -188,14 +188,14 @@
           "ReSharper.RedundantUsingDirective": {
             "id": "ReSharper.RedundantUsingDirective",
             "shortDescription": "Using directive is not required by the code and can be safely removed",
-            "fullDescription": "Redundant using directive. Click <a href=\"https://www.jetbrains.com/resharperplatform/help?Keyword=RedundantUsingDirective\">here</a> for details.",
+            "fullDescription": "Redundant using directive. Click <a href=\"https://www.jetbrains.com/resharperplatform/help?Keyword=RedundantUsingDirective\" target=\"_blank\">here</a> for details.",
             "defaultLevel": "warning",
             "helpUrl": "https://www.jetbrains.com/resharperplatform/help?Keyword=RedundantUsingDirective"
           },
           "ReSharper.CheckNamespace": {
             "id": "ReSharper.CheckNamespace",
             "shortDescription": "Namespace does not correspond to file location, should be: 'Test1'",
-            "fullDescription": "Namespace does not correspond to file location. Click <a href=\"https://www.jetbrains.com/resharperplatform/help?Keyword=CheckNamespace\">here</a> for details.",
+            "fullDescription": "Namespace does not correspond to file location. Click <a href=\"https://www.jetbrains.com/resharperplatform/help?Keyword=CheckNamespace\" target=\"_blank\">here</a> for details.",
             "defaultLevel": "warning",
             "helpUrl": "https://www.jetbrains.com/resharperplatform/help?Keyword=CheckNamespace"
           },
@@ -214,14 +214,14 @@
           "ReSharper.UnusedVariable": {
             "id": "ReSharper.UnusedVariable",
             "shortDescription": "Local variable 'streamReader' is never used",
-            "fullDescription": "Unused local variable. Click <a href=\"https://www.jetbrains.com/resharperplatform/help?Keyword=UnusedVariable\">here</a> for details.",
+            "fullDescription": "Unused local variable. Click <a href=\"https://www.jetbrains.com/resharperplatform/help?Keyword=UnusedVariable\" target=\"_blank\">here</a> for details.",
             "defaultLevel": "warning",
             "helpUrl": "https://www.jetbrains.com/resharperplatform/help?Keyword=UnusedVariable"
           },
           "ReSharper.UnusedMember.Local": {
             "id": "ReSharper.UnusedMember.Local",
             "shortDescription": "Method 'Process' is never used",
-            "fullDescription": "Type member is never used: Private accessibility. Click <a href=\"https://www.jetbrains.com/resharperplatform/help?Keyword=UnusedMember.Local\">here</a> for details.",
+            "fullDescription": "Type member is never used: Private accessibility. Click <a href=\"https://www.jetbrains.com/resharperplatform/help?Keyword=UnusedMember.Local\" target=\"_blank\">here</a> for details.",
             "defaultLevel": "warning",
             "helpUrl": "https://www.jetbrains.com/resharperplatform/help?Keyword=UnusedMember.Local"
           },
@@ -408,7 +408,7 @@
           "ReSharper.RedundantUsingDirective": {
             "id": "ReSharper.RedundantUsingDirective",
             "shortDescription": "Using directive is not required by the code and can be safely removed",
-            "fullDescription": "Redundant using directive. Click <a href=\"https://www.jetbrains.com/resharperplatform/help?Keyword=RedundantUsingDirective\">here</a> for details.",
+            "fullDescription": "Redundant using directive. Click <a href=\"https://www.jetbrains.com/resharperplatform/help?Keyword=RedundantUsingDirective\" target=\"_blank\">here</a> for details.",
             "defaultLevel": "warning",
             "helpUrl": "https://www.jetbrains.com/resharperplatform/help?Keyword=RedundantUsingDirective"
           },
@@ -421,21 +421,21 @@
           "ReSharper.UnusedMember.Global": {
             "id": "ReSharper.UnusedMember.Global",
             "shortDescription": "Method 'func' is never used",
-            "fullDescription": "Type member is never used: Non-private accessibility. Click <a href=\"https://www.jetbrains.com/resharperplatform/help?Keyword=UnusedMember.Global\">here</a> for details.",
+            "fullDescription": "Type member is never used: Non-private accessibility. Click <a href=\"https://www.jetbrains.com/resharperplatform/help?Keyword=UnusedMember.Global\" target=\"_blank\">here</a> for details.",
             "defaultLevel": "info",
             "helpUrl": "https://www.jetbrains.com/resharperplatform/help?Keyword=UnusedMember.Global"
           },
           "ReSharper.InconsistentNaming": {
             "id": "ReSharper.InconsistentNaming",
             "shortDescription": "Name 'func' does not match rule 'Methods'. Suggested name is 'Func'.",
-            "fullDescription": "Inconsistent Naming. Click <a href=\"https://www.jetbrains.com/resharperplatform/help?Keyword=InconsistentNaming\">here</a> for details.",
+            "fullDescription": "Inconsistent Naming. Click <a href=\"https://www.jetbrains.com/resharperplatform/help?Keyword=InconsistentNaming\" target=\"_blank\">here</a> for details.",
             "defaultLevel": "warning",
             "helpUrl": "https://www.jetbrains.com/resharperplatform/help?Keyword=InconsistentNaming"
           },
           "ReSharper.UnusedVariable": {
             "id": "ReSharper.UnusedVariable",
             "shortDescription": "Local variable 'd' is never used",
-            "fullDescription": "Unused local variable. Click <a href=\"https://www.jetbrains.com/resharperplatform/help?Keyword=UnusedVariable\">here</a> for details.",
+            "fullDescription": "Unused local variable. Click <a href=\"https://www.jetbrains.com/resharperplatform/help?Keyword=UnusedVariable\" target=\"_blank\">here</a> for details.",
             "defaultLevel": "warning",
             "helpUrl": "https://www.jetbrains.com/resharperplatform/help?Keyword=UnusedVariable"
           },
@@ -448,14 +448,14 @@
           "ReSharper.EmptyEmbeddedStatement": {
             "id": "ReSharper.EmptyEmbeddedStatement",
             "shortDescription": "Empty control statement body",
-            "fullDescription": "Empty control statement body. Click <a href=\"https://www.jetbrains.com/resharperplatform/help?Keyword=EmptyEmbeddedStatement\">here</a> for details.",
+            "fullDescription": "Empty control statement body. Click <a href=\"https://www.jetbrains.com/resharperplatform/help?Keyword=EmptyEmbeddedStatement\" target=\"_blank\">here</a> for details.",
             "defaultLevel": "warning",
             "helpUrl": "https://www.jetbrains.com/resharperplatform/help?Keyword=EmptyEmbeddedStatement"
           },
           "ReSharper.MemberCanBePrivate.Global": {
             "id": "ReSharper.MemberCanBePrivate.Global",
             "shortDescription": "Method 'Test' can be made private",
-            "fullDescription": "Member can be made private: Non-private accessibility. Click <a href=\"https://www.jetbrains.com/resharperplatform/help?Keyword=MemberCanBePrivate.Global\">here</a> for details.",
+            "fullDescription": "Member can be made private: Non-private accessibility. Click <a href=\"https://www.jetbrains.com/resharperplatform/help?Keyword=MemberCanBePrivate.Global\" target=\"_blank\">here</a> for details.",
             "defaultLevel": "info",
             "helpUrl": "https://www.jetbrains.com/resharperplatform/help?Keyword=MemberCanBePrivate.Global"
           }
