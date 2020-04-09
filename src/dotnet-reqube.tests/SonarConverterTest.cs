@@ -8,43 +8,47 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Xml.Serialization;
 using Xunit;
 
 namespace ReQube.Tests
 {
     public class SonarConverterTest
     {
+        private static readonly XmlSerializer ReSharperXmlSerializer = new XmlSerializer(typeof(Report));
+
         [Fact]
         public void SonarConverter_WithInvalidProjectPath_ShouldFail()
-        {
-            var sonarConverter = GetSonarConverter(new TestReportGenerator());
-
+        {            
             var options = new Options
             {
                 Input = "Resources/ReSharperTestReport.xml",
                 Project = "ReQube.Test1"
             };
 
-            var exception = Assert.Throws<FileNotFoundException>(() => sonarConverter.Convert(options));
+            var sonarConverter = GetSonarConverter(new TestReportGenerator(), options);
+
+            var exception = Assert.Throws<FileNotFoundException>(() => sonarConverter.Convert());
             Assert.Equal("Project not found.", exception.Message);
             Assert.Equal("ReQube.Test1", exception.FileName);
         }
 
         [Fact]
         public void SonarConverter_WithValidProjectPathButNoIssues_ShouldBeSkipped()
-        {
-            var sonarConverter = GetSonarConverter(new TestReportGenerator());
-
+        {            
             var options = new Options
             {
                 Input = "Resources/ReSharperTestReport.xml",
                 Project = "Resources/ReSharperTest/Test1/Test1.csproj"
             };
 
+            var sonarConverter = GetSonarConverter(new TestReportGenerator(), options);
+
             var mockLogger = new Mock<ILogger>();
             sonarConverter.Logger = mockLogger.Object;
 
-            sonarConverter.Convert(options);
+            sonarConverter.Convert();
 
             mockLogger.Verify(
                 l => l.Information(
@@ -62,9 +66,6 @@ namespace ReQube.Tests
                 File.Delete(reportFile);
             }
 
-            var sonarConverter = GetSonarConverter(
-                new TestReportGenerator { SonarReports = new List<ISonarReport> { new SonarRoslynReport() } });
-
             var options = new Options
             {
                 Input = "Resources/ReSharperTestReport.xml",
@@ -73,7 +74,11 @@ namespace ReQube.Tests
                 Project = "Resources/ReSharperTest/Test1/Test1.csproj"
             };
 
-            sonarConverter.Convert(options);
+            var sonarConverter = GetSonarConverter(
+                new TestReportGenerator { SonarReports = new List<ISonarReport> { new SonarRoslynReport() } },
+                options);
+
+            sonarConverter.Convert();
 
             Assert.True(File.Exists(reportFile));
         }
@@ -166,9 +171,10 @@ namespace ReQube.Tests
                 new TestReportGenerator
                 {
                     SonarReports = new List<ISonarReport> { new SonarRoslynReport() { ProjectName = "Test1" } }
-                });
+                },
+                options);
 
-            var exception = Assert.Throws<ArgumentException>(() => sonarConverter.Convert(options));
+            var exception = Assert.Throws<ArgumentException>(() => sonarConverter.Convert());
             Assert.Equal("Absolute paths are not allowed with -output, when converting a sln.", exception.Message);
         }
 
@@ -185,9 +191,10 @@ namespace ReQube.Tests
                 new TestReportGenerator
                 {
                     SonarReports = new List<ISonarReport> { new SonarRoslynReport() { ProjectName = "Test1" } }
-                });
+                },
+                options);
 
-            var exception = Assert.Throws<ArgumentException>(() => sonarConverter.Convert(options));
+            var exception = Assert.Throws<ArgumentException>(() => sonarConverter.Convert());
             Assert.Equal("Solution cannot contain absolute project paths.", exception.Message);
         }
 
@@ -268,6 +275,127 @@ namespace ReQube.Tests
             Assert.Equal(Path.Combine(solutionDir, "path3"), report.Issues[1].Issue[0].File);
         }
         
+        [Fact]
+        public void RemoveExcludedRules_ShouldFilterRulesCorrectly()
+        {
+            var reportXml = @"
+                <Report>  
+                    <Issues>   
+                        <Project Name=""Test1"">    
+                            <Issue TypeId=""UnusedParameter.Global"" 
+                                   Message=""Parameter 'countrygeoid' is used neither in this nor in overriding methods"" />     
+                            <Issue TypeId=""UnusedParameter.Global"" 
+                                   Message=""Parameter 'geocodeResolution' is never used""/>      
+                            <Issue TypeId=""CheckNamespace"" />       
+                            <Issue TypeId=""UnusedVariable"" />        
+                        </Project>        
+                        <Project Name=""Test2"">         
+                           <Issue TypeId=""RedundantUsingDirective""
+                                  Message=""Using directive is not required by the code and can be safely removed"" />          
+                           <Issue TypeId=""UnusedType.Global"" />           
+                        </Project>           
+                    </Issues>
+                </Report>";
+
+            var reSharperReport = ParseReSharperReport(reportXml);
+
+            // test exclude filters by type only
+            SonarConverter.RemoveExcludedRules(
+                reSharperReport, "RedundantUsingDirective|UnusedVariable|UnusedParameter.Global");
+
+            AssertEqualIssueTypes(reSharperReport, new[] { "CheckNamespace" }, new[] { "UnusedType.Global" });
+
+            // test message filtering
+            reSharperReport = ParseReSharperReport(reportXml);            
+            SonarConverter.RemoveExcludedRules(
+                reSharperReport,
+                "RedundantUsingDirective|UnusedParameter.Global##Parameter 'geocodeResolution'.*|UnusedVariable");
+
+            AssertEqualIssueTypes(
+                reSharperReport, new[] { "UnusedParameter.Global", "CheckNamespace" }, new[] { "UnusedType.Global" });
+            Assert.Equal(
+                "Parameter 'countrygeoid' is used neither in this nor in overriding methods",
+                reSharperReport.Issues[0].Issue[0].Message);
+
+            // test message filtering with partial match
+            reSharperReport = ParseReSharperReport(reportXml);
+            SonarConverter.RemoveExcludedRules(
+                reSharperReport,
+                "RedundantUsingDirective##directive|UnusedParameter.Global|UnusedVariable");
+
+            AssertEqualIssueTypes(
+                reSharperReport,
+                new[] { "CheckNamespace" }, 
+                new[] { "UnusedType.Global" });
+
+            // test message filtering with full match
+            reSharperReport = ParseReSharperReport(reportXml);
+            SonarConverter.RemoveExcludedRules(
+                reSharperReport,
+                "RedundantUsingDirective##^directive$|UnusedParameter.Global|UnusedVariable");
+
+            AssertEqualIssueTypes(
+                reSharperReport,
+                new[] { "CheckNamespace" },
+                new[] { "RedundantUsingDirective", "UnusedType.Global" });
+
+            // test message filtering overridden by type filtering
+            reSharperReport = ParseReSharperReport(reportXml);
+            SonarConverter.RemoveExcludedRules(
+                reSharperReport,
+                "RedundantUsingDirective##^directive$|RedundantUsingDirective|UnusedParameter.Global|UnusedVariable");
+
+            AssertEqualIssueTypes(
+                reSharperReport,
+                new[] { "CheckNamespace" },
+                new[] { "UnusedType.Global" });
+        }
+
+        [Fact]
+        public void SonarConverter_ForRoslynOutput_ShouldCallAddReSharperAnalysisPathsWithCorrectArguments()
+        {
+            var options = new Options
+            {
+                Input = "Resources/ReSharperTestReport.xml",
+                Output = "report.json",
+                OutputFormat = SonarOutputFormat.Roslyn
+            };
+
+            var sonarConverter = GetSonarConverter(
+                new TestReportGenerator { 
+                    SonarReports = new List<ISonarReport> { 
+                        new SonarRoslynReport
+                        {
+                            ProjectName = "Test1"
+                        },
+                        new SonarRoslynReport
+                        {
+                            ProjectName = "Test2"
+                        }
+                    } 
+                },
+                options);
+
+            var metaDataWriterMock = new Mock<ISonarMetaDataWriter>();
+
+            var metaDataWriterFactoryMock = new Mock<SonarMetaDataWriterFactory>();
+            metaDataWriterFactoryMock.Setup(
+                x => x.GetMetaDataWriter(It.IsAny<Options>())).Returns(metaDataWriterMock.Object);
+
+            sonarConverter.SonarMetaDataWriterFactory = metaDataWriterFactoryMock.Object;
+
+            sonarConverter.Convert();
+
+            metaDataWriterMock.Verify(
+                x => x.AddReSharperAnalysisPaths(
+                    It.Is<IDictionary<string, string>>(
+                        map => 
+                            map["Test1"] == Path.GetFullPath("Resources/ReSharperTest/Test1/report.json") && 
+                            map["Test2"] == Path.GetFullPath("Resources/ReSharperTest/Test2/src/report.json") &&
+                            map.Count == 2
+                        )), Times.Once);
+        }
+        
         private void RunGenericSonarConverterTest(string[] reportFiles, Options options)
         {
             foreach (var reportFile in reportFiles)
@@ -282,9 +410,10 @@ namespace ReQube.Tests
                 new TestReportGenerator
                 {
                     SonarReports = new List<ISonarReport> { new SonarRoslynReport() { ProjectName = "Test1" } }
-                });
+                },
+                options);
 
-            sonarConverter.Convert(options);
+            sonarConverter.Convert();
 
             foreach (var reportFile in reportFiles)
             {
@@ -292,9 +421,9 @@ namespace ReQube.Tests
             }
         }
 
-        private SonarConverter GetSonarConverter(ISonarReportGenerator sonarReportGenerator)
+        private SonarConverter GetSonarConverter(ISonarReportGenerator sonarReportGenerator, Options options)
         {
-            var sonarConverter = new SonarConverter();
+            var sonarConverter = new SonarConverter(options);
             var mockSonarReportGeneratorFactory = new Mock<SonarReportGeneratorFactory>();
             mockSonarReportGeneratorFactory.Setup(
                 f => f.GetGenerator(It.IsAny<SonarOutputFormat>())).Returns(sonarReportGenerator);
@@ -306,6 +435,25 @@ namespace ReQube.Tests
         private bool IsEmptyGenericReport(string file)
         {
             return File.ReadAllText(file) == "{\"issues\":[]}";
+        }
+
+        private Report ParseReSharperReport(string reportXml)
+        {
+            using var reader = new StringReader(reportXml);
+            return (Report)ReSharperXmlSerializer.Deserialize(reader);
+        }
+
+        [AssertionMethod]
+        private void AssertEqualIssueTypes(
+            Report reSharperReport, string[] expectedTypesForTest1, string[] expectedTypesForTest2)
+        {
+            Assert.Equal(
+                expectedTypesForTest1,
+                reSharperReport.Issues[0].Issue.Select(x => x.TypeId).ToArray());
+
+            Assert.Equal(
+                expectedTypesForTest2,
+                reSharperReport.Issues[1].Issue.Select(x => x.TypeId).ToArray());
         }
     }
 

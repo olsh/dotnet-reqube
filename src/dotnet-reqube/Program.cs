@@ -21,14 +21,14 @@ namespace ReQube
         internal void Run(string[] args)
         {
             Parser.Default.ParseArguments<Options>(args)
-                .WithParsed(GetSonarConverter().Convert)
+                .WithParsed(options => GetSonarConverter(options).Convert())
                 .WithNotParsed(HandleParseError);
         }
 
         [UsedImplicitly]
-        protected virtual ISonarConverter GetSonarConverter()
+        protected virtual ISonarConverter GetSonarConverter(Options options)
         {
-            return new SonarConverter();
+            return new SonarConverter(options);
         }
 
         [UsedImplicitly]
