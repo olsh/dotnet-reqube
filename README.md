@@ -1,8 +1,8 @@
 # dotnet-reqube
 
-[![Build status](https://ci.appveyor.com/api/projects/status/kb0260n7o1alqyqv?svg=true)](https://ci.appveyor.com/project/todor/dotnet-reqube)
-[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=dotnet-reqube&metric=alert_status)](https://sonarcloud.io/dashboard?id=dotnet-requbex)
-[![NuGet](https://img.shields.io/nuget/v/dotnet-requbex.svg)](https://www.nuget.org/packages/dotnet-requbex/)
+[![Build status](https://ci.appveyor.com/api/projects/status/kb0260n7o1alqyqv?svg=true)](https://ci.appveyor.com/project/olsh/reqube)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=dotnet-reqube&metric=alert_status)](https://sonarcloud.io/dashboard?id=dotnet-reqube)
+[![NuGet](https://img.shields.io/nuget/v/dotnet-reqube.svg)](https://www.nuget.org/packages/dotnet-reqube/)
 
 .NET Core global tool that converts [ReSharper inspect code](https://www.jetbrains.com/help/resharper/InspectCode.html) report to [SonarQube format](https://docs.sonarqube.org/display/SONAR/Generic+Issue+Data)
 or [Roslyn Static Code Analysis Results Format](http://json.schemastore.org/sarif-1.0.0).
