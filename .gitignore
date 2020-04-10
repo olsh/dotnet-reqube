@@ -118,6 +118,7 @@ $tf/
 _ReSharper*/
 *.[Rr]e[Ss]harper
 *.DotSettings.user
+resharper-report.xml
 
 # JustCode is a .NET coding add-in
 .JustCode
@@ -135,6 +136,7 @@ _TeamCity*
 # Visual Studio code coverage results
 *.coverage
 *.coveragexml
+*.opencover.xml
 
 # NCrunch
 _NCrunch_*
@@ -334,3 +336,7 @@ tools/*
 
 # SonarQube
 .sonarqube/
+sonarqube-report.json
+
+# Temporary Data
+tmp

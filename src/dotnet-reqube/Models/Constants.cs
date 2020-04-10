@@ -9,14 +9,25 @@ namespace ReQube.Models
 
         public const string SonarQubeCodeSmellType = "CODE_SMELL";
 
-        public static IDictionary<string, string> ReSharperToSonarQubeSeverityMap { get; } = new Dictionary<string, string>
-                                                                                                 {
-                                                                                                     { "ERROR", "CRITICAL" },
-                                                                                                     { "WARNING", "MAJOR" },
-                                                                                                     { "SUGGESTION", "MINOR" },
-                                                                                                     { "HINT", "INFO" },
-                                                                                                     { "INFO", "INFO" }
-                                                                                                 };
+        public static IDictionary<string, string> ReSharperToSonarQubeSeverityMap { get; }
+            = new Dictionary<string, string> 
+            {
+                { "ERROR", "CRITICAL" },
+                { "WARNING", "MAJOR" },
+                { "SUGGESTION", "MINOR" },
+                { "HINT", "INFO" },
+                { "INFO", "INFO" }
+            };
+
+        public static IDictionary<string, string> ReSharperToSonarRoslynSeverityMap { get; } 
+            = new Dictionary<string, string>
+            {
+                { "ERROR", "error" },
+                { "WARNING", "warning" },
+                { "SUGGESTION", "info" },
+                { "HINT", "info" },
+                { "INFO", "info" }
+            };
 
         // Extract from https://www.codeproject.com/Reference/720512/List-of-Visual-Studio-Project-Type-GUIDs
         public static IDictionary<string, Guid> ProjectTypeGuids { get; } = new Dictionary<string, Guid>

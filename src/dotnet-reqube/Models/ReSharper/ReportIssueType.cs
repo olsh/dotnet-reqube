@@ -9,24 +9,16 @@ namespace ReQube.Models.ReSharper
     [XmlType(AnonymousType = true)]
     public class ReportIssueType
     {
-        private string _idField;
-
-        private string _severityField;
+        [XmlAttribute]
+        public string Id { get; set; }
 
         [XmlAttribute]
-        public string Id
-        {
-            get => _idField;
-            // ReSharper disable once UnusedMember.Global
-            set => _idField = value;
-        }
+        public string Severity { get; set; }
 
         [XmlAttribute]
-        public string Severity
-        {
-            get => _severityField;
-            // ReSharper disable once UnusedMember.Global
-            set => _severityField = value;
-        }
+        public string Description { get; set; }
+
+        [XmlAttribute]
+        public string WikiUrl { get; set; }
     }
 }

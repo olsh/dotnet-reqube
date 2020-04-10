@@ -2,17 +2,17 @@
 
 using Newtonsoft.Json;
 
-namespace ReQube.Models.SonarQube
+namespace ReQube.Models.SonarQube.Generic
 {
-    public class SonarQubeReport
+    public class SonarGenericReport : ISonarReport
     {
-        public SonarQubeReport()
+        public SonarGenericReport()
         {
             Issues = new LinkedList<Issue>();
         }
 
         [JsonIgnore]
-        public static SonarQubeReport Empty { get; } = new SonarQubeReport();
+        public static SonarGenericReport Empty { get; } = new SonarGenericReport();
 
         [JsonProperty("issues")]
         public ICollection<Issue> Issues { get; set; }

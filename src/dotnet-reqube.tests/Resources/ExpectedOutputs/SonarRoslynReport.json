@@ -1,0 +1,468 @@
+﻿[
+  {
+    "runs": [
+      {
+        "results": [
+          {
+            "ruleId": "ReSharper.RedundantUsingDirective",
+            "level": "warning",
+            "message": "Using directive is not required by the code and can be safely removed",
+            "locations": [
+              {
+                "resultFile": {
+                  "uri": "{sourceRoot}/Resources/ReSharperTest/Test1/Program.cs",
+                  "region": {
+                    "endColumn": 14,
+                    "endLine": 1,
+                    "startColumn": 1,
+                    "startLine": 1
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "ruleId": "ReSharper.RedundantUsingDirective",
+            "level": "warning",
+            "message": "Using directive is not required by the code and can be safely removed",
+            "locations": [
+              {
+                "resultFile": {
+                  "uri": "{sourceRoot}/Resources/ReSharperTest/Test1/Program.cs",
+                  "region": {
+                    "endColumn": 29,
+                    "endLine": 4,
+                    "startColumn": 1,
+                    "startLine": 4
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "ruleId": "ReSharper.CheckNamespace",
+            "level": "warning",
+            "message": "Namespace does not correspond to file location, should be: 'Test1'",
+            "locations": [
+              {
+                "resultFile": {
+                  "uri": "{sourceRoot}/Resources/ReSharperTest/Test1/Program.cs",
+                  "region": {
+                    "endColumn": 30,
+                    "endLine": 6,
+                    "startColumn": 11,
+                    "startLine": 6
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "ruleId": "ReSharper.UnusedAutoPropertyAccessor.Local",
+            "level": "warning",
+            "message": "Auto-property accessor is never used",
+            "locations": [
+              {
+                "resultFile": {
+                  "uri": "{sourceRoot}/Resources/ReSharperTest/Test1/Program.cs",
+                  "region": {
+                    "endColumn": 35,
+                    "endLine": 11,
+                    "startColumn": 31,
+                    "startLine": 11
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "ruleId": "ReSharper.UnusedParameter.Local",
+            "level": "warning",
+            "message": "Parameter 'args' is never used",
+            "locations": [
+              {
+                "resultFile": {
+                  "uri": "{sourceRoot}/Resources/ReSharperTest/Test1/Program.cs",
+                  "region": {
+                    "endColumn": 39,
+                    "endLine": 13,
+                    "startColumn": 35,
+                    "startLine": 13
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "ruleId": "ReSharper.UnusedParameter.Local",
+            "level": "warning",
+            "message": "Parameter 'redundantArg' is never used",
+            "locations": [
+              {
+                "resultFile": {
+                  "uri": "{sourceRoot}/Resources/ReSharperTest/Test1/Program.cs",
+                  "region": {
+                    "endColumn": 37,
+                    "endLine": 18,
+                    "startColumn": 25,
+                    "startLine": 18
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "ruleId": "ReSharper.UnusedVariable",
+            "level": "warning",
+            "message": "Local variable 'streamReader' is never used",
+            "locations": [
+              {
+                "resultFile": {
+                  "uri": "{sourceRoot}/Resources/ReSharperTest/Test1/Program.cs",
+                  "region": {
+                    "endColumn": 29,
+                    "endLine": 21,
+                    "startColumn": 17,
+                    "startLine": 21
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "ruleId": "ReSharper.UnusedMember.Local",
+            "level": "warning",
+            "message": "Method 'Process' is never used",
+            "locations": [
+              {
+                "resultFile": {
+                  "uri": "{sourceRoot}/Resources/ReSharperTest/Test1/Program.cs",
+                  "region": {
+                    "endColumn": 21,
+                    "endLine": 24,
+                    "startColumn": 14,
+                    "startLine": 24
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "ruleId": "ReSharper.CSharpErrors",
+            "level": "error",
+            "message": "Optional parameters must appear after all required parameters",
+            "locations": [
+              {
+                "resultFile": {
+                  "uri": "{sourceRoot}/Resources/ReSharperTest/Test1/Program.cs",
+                  "region": {
+                    "endColumn": 54,
+                    "endLine": 24,
+                    "startColumn": 48,
+                    "startLine": 24
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "ruleId": "ReSharper.UnusedParameter.Local",
+            "level": "warning",
+            "message": "Parameter 'x' is never used",
+            "locations": [
+              {
+                "resultFile": {
+                  "uri": "{sourceRoot}/Resources/ReSharperTest/Test1/Program.cs",
+                  "region": {
+                    "endColumn": 61,
+                    "endLine": 24,
+                    "startColumn": 60,
+                    "startLine": 24
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "rules": {
+          "ReSharper.RedundantUsingDirective": {
+            "id": "ReSharper.RedundantUsingDirective",
+            "shortDescription": "Using directive is not required by the code and can be safely removed",
+            "fullDescription": "Redundant using directive. Click <a href=\"https://www.jetbrains.com/resharperplatform/help?Keyword=RedundantUsingDirective\" target=\"_blank\">here</a> for details.",
+            "defaultLevel": "warning",
+            "helpUrl": "https://www.jetbrains.com/resharperplatform/help?Keyword=RedundantUsingDirective"
+          },
+          "ReSharper.CheckNamespace": {
+            "id": "ReSharper.CheckNamespace",
+            "shortDescription": "Namespace does not correspond to file location, should be: 'Test1'",
+            "fullDescription": "Namespace does not correspond to file location. Click <a href=\"https://www.jetbrains.com/resharperplatform/help?Keyword=CheckNamespace\" target=\"_blank\">here</a> for details.",
+            "defaultLevel": "warning",
+            "helpUrl": "https://www.jetbrains.com/resharperplatform/help?Keyword=CheckNamespace"
+          },
+          "ReSharper.UnusedAutoPropertyAccessor.Local": {
+            "id": "ReSharper.UnusedAutoPropertyAccessor.Local",
+            "shortDescription": "Auto-property accessor is never used",
+            "fullDescription": "Auto-property accessor is never used: Private accessibility.",
+            "defaultLevel": "warning"
+          },
+          "ReSharper.UnusedParameter.Local": {
+            "id": "ReSharper.UnusedParameter.Local",
+            "shortDescription": "Parameter 'args' is never used",
+            "fullDescription": "Unused parameter: Private accessibility.",
+            "defaultLevel": "warning"
+          },
+          "ReSharper.UnusedVariable": {
+            "id": "ReSharper.UnusedVariable",
+            "shortDescription": "Local variable 'streamReader' is never used",
+            "fullDescription": "Unused local variable. Click <a href=\"https://www.jetbrains.com/resharperplatform/help?Keyword=UnusedVariable\" target=\"_blank\">here</a> for details.",
+            "defaultLevel": "warning",
+            "helpUrl": "https://www.jetbrains.com/resharperplatform/help?Keyword=UnusedVariable"
+          },
+          "ReSharper.UnusedMember.Local": {
+            "id": "ReSharper.UnusedMember.Local",
+            "shortDescription": "Method 'Process' is never used",
+            "fullDescription": "Type member is never used: Private accessibility. Click <a href=\"https://www.jetbrains.com/resharperplatform/help?Keyword=UnusedMember.Local\" target=\"_blank\">here</a> for details.",
+            "defaultLevel": "warning",
+            "helpUrl": "https://www.jetbrains.com/resharperplatform/help?Keyword=UnusedMember.Local"
+          },
+          "ReSharper.CSharpErrors": {
+            "id": "ReSharper.CSharpErrors",
+            "shortDescription": "Optional parameters must appear after all required parameters",
+            "fullDescription": ".",
+            "defaultLevel": "error"
+          }
+        }
+      }
+    ],
+    "$schema": "http://json.schemastore.org/sarif-1.0.0",
+    "version": "1.0.0"
+  },
+  {
+    "runs": [
+      {
+        "results": [
+          {
+            "ruleId": "ReSharper.RedundantUsingDirective",
+            "level": "warning",
+            "message": "Using directive is not required by the code and can be safely removed",
+            "locations": [
+              {
+                "resultFile": {
+                  "uri": "{sourceRoot}/Resources/ReSharperTest/Test2/src/Class1.cs",
+                  "region": {
+                    "endColumn": 14,
+                    "endLine": 1,
+                    "startColumn": 1,
+                    "startLine": 1
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "ruleId": "ReSharper.UnusedType.Global",
+            "level": "info",
+            "message": "Class 'Class1' is never used",
+            "locations": [
+              {
+                "resultFile": {
+                  "uri": "{sourceRoot}/Resources/ReSharperTest/Test2/src/Class1.cs",
+                  "region": {
+                    "endColumn": 24,
+                    "endLine": 5,
+                    "startColumn": 18,
+                    "startLine": 5
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "ruleId": "ReSharper.UnusedMember.Global",
+            "level": "info",
+            "message": "Method 'func' is never used",
+            "locations": [
+              {
+                "resultFile": {
+                  "uri": "{sourceRoot}/Resources/ReSharperTest/Test2/src/Class1.cs",
+                  "region": {
+                    "endColumn": 25,
+                    "endLine": 7,
+                    "startColumn": 21,
+                    "startLine": 7
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "ruleId": "ReSharper.InconsistentNaming",
+            "level": "warning",
+            "message": "Name 'func' does not match rule 'Methods'. Suggested name is 'Func'.",
+            "locations": [
+              {
+                "resultFile": {
+                  "uri": "{sourceRoot}/Resources/ReSharperTest/Test2/src/Class1.cs",
+                  "region": {
+                    "endColumn": 25,
+                    "endLine": 7,
+                    "startColumn": 21,
+                    "startLine": 7
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "ruleId": "ReSharper.UnusedVariable",
+            "level": "warning",
+            "message": "Local variable 'd' is never used",
+            "locations": [
+              {
+                "resultFile": {
+                  "uri": "{sourceRoot}/Resources/ReSharperTest/Test2/src/Class1.cs",
+                  "region": {
+                    "endColumn": 56,
+                    "endLine": 7,
+                    "startColumn": 55,
+                    "startLine": 7
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "ruleId": "ReSharper.CSharpErrors",
+            "level": "error",
+            "message": "Local variable 'c' might not be initialized before accessing",
+            "locations": [
+              {
+                "resultFile": {
+                  "uri": "{sourceRoot}/Resources/ReSharperTest/Test2/src/Class1.cs",
+                  "region": {
+                    "endColumn": 69,
+                    "endLine": 7,
+                    "startColumn": 68,
+                    "startLine": 7
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "ruleId": "ReSharper.UnusedMember.Global",
+            "level": "info",
+            "message": "Method 'Func2' is never used",
+            "locations": [
+              {
+                "resultFile": {
+                  "uri": "{sourceRoot}/Resources/ReSharperTest/Test2/src/Class1.cs",
+                  "region": {
+                    "endColumn": 26,
+                    "endLine": 9,
+                    "startColumn": 21,
+                    "startLine": 9
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "ruleId": "ReSharper.EmptyEmbeddedStatement",
+            "level": "warning",
+            "message": "Empty control statement body",
+            "locations": [
+              {
+                "resultFile": {
+                  "uri": "{sourceRoot}/Resources/ReSharperTest/Test2/src/Class1.cs",
+                  "region": {
+                    "endColumn": 39,
+                    "endLine": 12,
+                    "startColumn": 38,
+                    "startLine": 12
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "ruleId": "ReSharper.MemberCanBePrivate.Global",
+            "level": "info",
+            "message": "Method 'Test' can be made private",
+            "locations": [
+              {
+                "resultFile": {
+                  "uri": "{sourceRoot}/Resources/ReSharperTest/Test2/src/Class1.cs",
+                  "region": {
+                    "endColumn": 15,
+                    "endLine": 15,
+                    "startColumn": 9,
+                    "startLine": 15
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "rules": {
+          "ReSharper.RedundantUsingDirective": {
+            "id": "ReSharper.RedundantUsingDirective",
+            "shortDescription": "Using directive is not required by the code and can be safely removed",
+            "fullDescription": "Redundant using directive. Click <a href=\"https://www.jetbrains.com/resharperplatform/help?Keyword=RedundantUsingDirective\" target=\"_blank\">here</a> for details.",
+            "defaultLevel": "warning",
+            "helpUrl": "https://www.jetbrains.com/resharperplatform/help?Keyword=RedundantUsingDirective"
+          },
+          "ReSharper.UnusedType.Global": {
+            "id": "ReSharper.UnusedType.Global",
+            "shortDescription": "Class 'Class1' is never used",
+            "fullDescription": "Type is never used: Non-private accessibility.",
+            "defaultLevel": "info"
+          },
+          "ReSharper.UnusedMember.Global": {
+            "id": "ReSharper.UnusedMember.Global",
+            "shortDescription": "Method 'func' is never used",
+            "fullDescription": "Type member is never used: Non-private accessibility. Click <a href=\"https://www.jetbrains.com/resharperplatform/help?Keyword=UnusedMember.Global\" target=\"_blank\">here</a> for details.",
+            "defaultLevel": "info",
+            "helpUrl": "https://www.jetbrains.com/resharperplatform/help?Keyword=UnusedMember.Global"
+          },
+          "ReSharper.InconsistentNaming": {
+            "id": "ReSharper.InconsistentNaming",
+            "shortDescription": "Name 'func' does not match rule 'Methods'. Suggested name is 'Func'.",
+            "fullDescription": "Inconsistent Naming. Click <a href=\"https://www.jetbrains.com/resharperplatform/help?Keyword=InconsistentNaming\" target=\"_blank\">here</a> for details.",
+            "defaultLevel": "warning",
+            "helpUrl": "https://www.jetbrains.com/resharperplatform/help?Keyword=InconsistentNaming"
+          },
+          "ReSharper.UnusedVariable": {
+            "id": "ReSharper.UnusedVariable",
+            "shortDescription": "Local variable 'd' is never used",
+            "fullDescription": "Unused local variable. Click <a href=\"https://www.jetbrains.com/resharperplatform/help?Keyword=UnusedVariable\" target=\"_blank\">here</a> for details.",
+            "defaultLevel": "warning",
+            "helpUrl": "https://www.jetbrains.com/resharperplatform/help?Keyword=UnusedVariable"
+          },
+          "ReSharper.CSharpErrors": {
+            "id": "ReSharper.CSharpErrors",
+            "shortDescription": "Local variable 'c' might not be initialized before accessing",
+            "fullDescription": ".",
+            "defaultLevel": "error"
+          },
+          "ReSharper.EmptyEmbeddedStatement": {
+            "id": "ReSharper.EmptyEmbeddedStatement",
+            "shortDescription": "Empty control statement body",
+            "fullDescription": "Empty control statement body. Click <a href=\"https://www.jetbrains.com/resharperplatform/help?Keyword=EmptyEmbeddedStatement\" target=\"_blank\">here</a> for details.",
+            "defaultLevel": "warning",
+            "helpUrl": "https://www.jetbrains.com/resharperplatform/help?Keyword=EmptyEmbeddedStatement"
+          },
+          "ReSharper.MemberCanBePrivate.Global": {
+            "id": "ReSharper.MemberCanBePrivate.Global",
+            "shortDescription": "Method 'Test' can be made private",
+            "fullDescription": "Member can be made private: Non-private accessibility. Click <a href=\"https://www.jetbrains.com/resharperplatform/help?Keyword=MemberCanBePrivate.Global\" target=\"_blank\">here</a> for details.",
+            "defaultLevel": "info",
+            "helpUrl": "https://www.jetbrains.com/resharperplatform/help?Keyword=MemberCanBePrivate.Global"
+          }
+        }
+      }
+    ],
+    "$schema": "http://json.schemastore.org/sarif-1.0.0",
+    "version": "1.0.0"
+  }
+]

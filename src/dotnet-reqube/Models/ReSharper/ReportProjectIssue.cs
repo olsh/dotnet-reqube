@@ -9,44 +9,19 @@ namespace ReQube.Models.ReSharper
     [XmlType(AnonymousType = true)]
     public class ReportProjectIssue
     {
-        private string _fileField;
-
-        private ushort _lineField;
-
-        private string _messageField;
-
-        private string _typeIdField;
+        [XmlAttribute]
+        public string File { get; set; }
 
         [XmlAttribute]
-        public string File
-        {
-            get => _fileField;
-            // ReSharper disable once UnusedMember.Global
-            set => _fileField = value;
-        }
+        public ushort Line { get; set; }
 
         [XmlAttribute]
-        public ushort Line
-        {
-            get => _lineField;
-            // ReSharper disable once UnusedMember.Global
-            set => _lineField = value;
-        }
+        public string Message { get; set; }
 
         [XmlAttribute]
-        public string Message
-        {
-            get => _messageField;
-            // ReSharper disable once UnusedMember.Global
-            set => _messageField = value;
-        }
+        public string TypeId { get; set; }
 
         [XmlAttribute]
-        public string TypeId
-        {
-            get => _typeIdField;
-            // ReSharper disable once UnusedMember.Global
-            set => _typeIdField = value;
-        }
+        public string Offset { get; set; }
     }
 }
