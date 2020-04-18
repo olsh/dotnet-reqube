@@ -1,8 +1,26 @@
-﻿[
+[
   {
     "runs": [
       {
         "results": [
+          {
+            "ruleId": "ReSharper.StatementTermination",
+            "level": "warning",
+            "message": "Statement termination doesn't match code style",
+            "locations": [
+              {
+                "resultFile": {
+                  "uri": "{sourceRoot}/Resources/ReSharperTest/Test1/line-ending.js",
+                  "region": {
+                    "endColumn": 54,
+                    "endLine": 2,
+                    "startColumn": 54,
+                    "startLine": 2
+                  }
+                }
+              }
+            ]
+          },
           {
             "ruleId": "ReSharper.RedundantUsingDirective",
             "level": "warning",
@@ -185,6 +203,12 @@
           }
         ],
         "rules": {
+          "ReSharper.StatementTermination": {
+            "id": "ReSharper.StatementTermination",
+            "shortDescription": "Statement termination doesn't match code style",
+            "fullDescription": "Statement termination doesn't match code style.",
+            "defaultLevel": "warning"
+          },
           "ReSharper.RedundantUsingDirective": {
             "id": "ReSharper.RedundantUsingDirective",
             "shortDescription": "Using directive is not required by the code and can be safely removed",

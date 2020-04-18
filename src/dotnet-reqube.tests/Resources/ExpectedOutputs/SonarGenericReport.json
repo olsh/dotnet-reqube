@@ -1,6 +1,22 @@
-﻿[
+[
   {
     "issues": [
+      {
+        "engineId": "R#",
+        "primaryLocation": {
+          "filePath": "{sourceRoot}/Resources/ReSharperTest/Test1/line-ending.js",
+          "message": "Statement termination doesn't match code style",
+          "textRange": {
+            "endColumn": 53,
+            "endLine": 2,
+            "startColumn": 53,
+            "startLine": 2
+          }
+        },
+        "ruleId": "StatementTermination",
+        "severity": "MAJOR",
+        "type": "CODE_SMELL"
+      },
       {
         "engineId": "R#",
         "primaryLocation": {
