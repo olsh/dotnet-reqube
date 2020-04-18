@@ -1,6 +1,6 @@
-#tool nuget:?package=MSBuild.SonarQube.Runner.Tool&version=4.6.0
-#tool nuget:?package=JetBrains.ReSharper.CommandLineTools&version=2019.3.1
-#addin nuget:?package=Cake.Sonar&version=1.1.22
+#tool nuget:?package=MSBuild.SonarQube.Runner.Tool&version=4.8.0
+#tool nuget:?package=JetBrains.ReSharper.CommandLineTools&version=2020.1.0
+#addin nuget:?package=Cake.Sonar&version=1.1.25
 #addin "Cake.FileHelpers&version=3.2.1"
 
 // set the following envrionement variables before running the cake build:
