@@ -1,2 +1,2 @@
 # Files for analysis should alway have lf line ending
-ReSharperTest/**/*.cs text eol=lf
+Resources/**/*.cs text eol=lf

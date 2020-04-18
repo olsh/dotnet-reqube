@@ -61,9 +61,8 @@ namespace ReQube
                                 StartLine = line,
                                 EndLine = line,
 
-                                // line offset in Roslyn is 1-based
-                                StartColumn = startColumn + 1,
-                                EndColumn = endColumn + 1
+                                StartColumn = startColumn,
+                                EndColumn = endColumn
                             }
                         }
                     };
