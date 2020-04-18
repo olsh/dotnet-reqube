@@ -55,7 +55,7 @@ namespace ReQube.Utils
             var startOfLineIndex = FindStartOfLineIndex(content, globalStart);
 
             // Some R# issues like statement termination starts at the end of the line, SQ throws an error in this case
-            // So we should point to the last visible char of the line
+            // So we should point to the line
             if (startOfLineIndex == globalStart)
             {
                 startOfLineIndex = FindStartOfLineIndex(content, globalStart - 1);
