@@ -61,7 +61,7 @@ namespace ReQube.Utils
                 startOfLineIndex = FindStartOfLineIndex(content, globalStart - 1);
                 var lastVisibleChar = globalStart - startOfLineIndex - 1;
 
-                return (lastVisibleChar, lastVisibleChar);
+                return (0, lastVisibleChar);
             }
 
             int lineStart = startOfLineIndex + 1;
