@@ -7,9 +7,9 @@
           "filePath": "{sourceRoot}/Resources/ReSharperTest/Test1/line-ending.js",
           "message": "Statement termination doesn't match code style",
           "textRange": {
-            "endColumn": 53,
+            "endColumn": 36,
             "endLine": 2,
-            "startColumn": 53,
+            "startColumn": 36,
             "startLine": 2
           }
         },

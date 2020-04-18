@@ -47,16 +47,24 @@ namespace ReQube.Utils
         public static (int StartColumn, int EndColumn) FindLineOffset(
             string content, int globalStart, int globalEnd)
         {
-            var endOfLineIndex = content.LastIndexOf('\n', globalStart);
-
-            // Some R# issues like statement termination starts at the end of the line, SQ throws an error in this case
-            // So we should point to the last char of the line
-            if (endOfLineIndex == globalStart)
+            int FindStartOfLineIndex(string c, int startIndex)
             {
-                return (globalStart - 1, globalStart - 1);
+                return c.LastIndexOf('\n', startIndex);
             }
 
-            int lineStart = endOfLineIndex + 1;
+            var startOfLineIndex = FindStartOfLineIndex(content, globalStart);
+
+            // Some R# issues like statement termination starts at the end of the line, SQ throws an error in this case
+            // So we should point to the last visible char of the line
+            if (startOfLineIndex == globalStart)
+            {
+                startOfLineIndex = FindStartOfLineIndex(content, globalStart - 1);
+                var lastVisibleChar = globalStart - startOfLineIndex - 1;
+
+                return (lastVisibleChar, lastVisibleChar);
+            }
+
+            int lineStart = startOfLineIndex + 1;
             int startColumn = globalStart - lineStart;
             int endColumn = globalEnd - lineStart;
 
