@@ -53,12 +53,13 @@ namespace ReQube
             var line = lastLoadedFileLines[lineNumber - 1];
             if (lineOffset.StartColumn < 0 || line.Length < lineOffset.EndColumn)
             {
-                Logger.Warning(
-                    "Line ({StartOffset}, {EndOffset}) offset is out of line range. Line length in file {FilePath} is {LineLength}, fallback to the entire line highlighting",
+                Logger.Information(
+                    "Line offset pointer ({StartOffset}, {EndOffset}) is out of range. {FilePath} has {LineLength} characters at line {LineNumber}, fallback to the entire line highlighting",
                     lineOffset.StartColumn,
                     lineOffset.EndColumn,
                     filePath,
-                    line.Length);
+                    line.Length,
+                    lineNumber);
 
                 return (null, null);
             }

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Description>A tool that converts ReSharper inspect code report to SonarQube format</Description>
-    <VersionPrefix>1.2.5</VersionPrefix>
+    <VersionPrefix>1.2.6</VersionPrefix>
     <Authors>Oleg Shevchenko, Todor Petrov</Authors>    
     <PackageTags>resharper, sonarqube</PackageTags>
     <PackageReleaseNotes>https://github.com/olsh/reqube/releases</PackageReleaseNotes>
