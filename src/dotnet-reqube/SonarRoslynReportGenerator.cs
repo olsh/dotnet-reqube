@@ -4,6 +4,8 @@ using ReQube.Models.SonarQube.Roslyn;
 using ReQube.Utils;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
+
 using static ReQube.Models.Constants;
 
 namespace ReQube
@@ -17,6 +19,7 @@ namespace ReQube
             var issueTypes = reSharperReport.IssueTypes.ToDictionary(t => t.Id, type => type);
             var lastLoadedFilePath = "";
             var lastLoadedFileContent = "";
+            string[] lastLoadedFileLines = null;
 
             foreach (var project in reSharperReport.Issues)
             {
@@ -29,7 +32,7 @@ namespace ReQube
 
                 foreach (var issue in project.Issue)
                 {
-                    ReadIssueFile(issue.File, ref lastLoadedFilePath, ref lastLoadedFileContent);
+                    ReadIssueFile(issue.File, ref lastLoadedFilePath, ref lastLoadedFileContent, ref lastLoadedFileLines);
 
                     var issueType = issueTypes[issue.TypeId];
                     var ruleId = $"ReSharper.{issue.TypeId}";
@@ -57,7 +60,19 @@ namespace ReQube
                     };
 
                     var line = ((ISonarReportGenerator)this).GetSonarLine(issue.Line);
-                    var (startColumn, endColumn) = FindLineOffset(issue.Offset, lastLoadedFileContent);
+                    var (startColumn, endColumn) = FindLineOffset(issue.Offset, line, lastLoadedFilePath, lastLoadedFileContent, lastLoadedFileLines);
+
+                    var textRange = new TextRange
+                                        {
+                                            StartLine = line,
+                                            EndLine = line,
+                                        };
+                    if (startColumn.HasValue && endColumn.HasValue)
+                    {
+                        // line offset in Roslyn is 1-based
+                        textRange.StartColumn = startColumn + 1;
+                        textRange.EndColumn = endColumn + 1;
+                    }
 
                     result.Locations.Add(
                         new Location
@@ -65,15 +80,7 @@ namespace ReQube
                             ResultFile = new ResultFile
                             {
                                 Uri = FileUtils.FilePathToFileUrl(issue.File),
-                                Region = new TextRange
-                                {
-                                    StartLine = line,
-                                    EndLine = line,
-
-                                    // line offset in Roslyn is 1-based
-                                    StartColumn = startColumn + 1,
-                                    EndColumn = endColumn + 1
-                                }
+                                Region = textRange
                             }
                         });
 

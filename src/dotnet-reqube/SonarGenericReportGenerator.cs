@@ -19,6 +19,7 @@ namespace ReQube
             var reportIssueTypes = reSharperReport.IssueTypes.ToDictionary(t => t.Id, type => type);
             var lastLoadedFilePath = "";
             var lastLoadedFileContent = "";
+            string[] lastLoadedFileLines = null;
 
             var sonarQubeReports = new List<ISonarReport>();
 
@@ -41,10 +42,10 @@ namespace ReQube
                         continue;
                     }
 
-                    ReadIssueFile(issue.File, ref lastLoadedFilePath, ref lastLoadedFileContent);
+                    ReadIssueFile(issue.File, ref lastLoadedFilePath, ref lastLoadedFileContent, ref lastLoadedFileLines);
 
                     var line = ((ISonarReportGenerator)this).GetSonarLine(issue.Line);
-                    var (startColumn, endColumn) = FindLineOffset(issue.Offset, lastLoadedFileContent);
+                    var (startColumn, endColumn) = FindLineOffset(issue.Offset, line, lastLoadedFilePath, lastLoadedFileContent, lastLoadedFileLines);
 
                     var sonarQubeIssue = new Issue
                     {
