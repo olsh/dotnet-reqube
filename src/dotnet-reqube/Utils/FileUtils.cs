@@ -47,6 +47,11 @@ namespace ReQube.Utils
         public static (int StartColumn, int EndColumn) FindLineOffset(
             string content, int globalStart, int globalEnd)
         {
+            if (globalStart > content.Length)
+            {
+                return (-1, -1);
+            }
+
             int lineStart = content.LastIndexOf('\n', globalStart) + 1;
             int startColumn = globalStart - lineStart;
             int endColumn = globalEnd - lineStart;
