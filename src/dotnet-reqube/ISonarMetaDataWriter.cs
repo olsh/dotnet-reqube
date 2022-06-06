@@ -4,6 +4,6 @@ namespace ReQube
 {
     public interface ISonarMetaDataWriter
     {
-        void AddReSharperAnalysisPaths(IDictionary<string, string> reportPathsByProject);
+        void AddReSharperAnalysisPaths(List<KeyValuePair<string, string>> reportPathsByProject);
     }
 }

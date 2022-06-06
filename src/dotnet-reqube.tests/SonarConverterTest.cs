@@ -20,7 +20,7 @@ namespace ReQube.Tests
 
         [Fact]
         public void SonarConverter_WithInvalidProjectPath_ShouldFail()
-        {            
+        {
             var options = new Options
             {
                 Input = "Resources/ReSharperTestReport.xml",
@@ -36,7 +36,7 @@ namespace ReQube.Tests
 
         [Fact]
         public void SonarConverter_WithValidProjectPathButNoIssues_ShouldBeSkipped()
-        {            
+        {
             var options = new Options
             {
                 Input = "Resources/ReSharperTestReport.xml",
@@ -52,7 +52,7 @@ namespace ReQube.Tests
 
             mockLogger.Verify(
                 l => l.Information(
-                    It.Is<string>(m => m == "Project Resources/ReSharperTest/Test1/Test1.csproj contains no issues.")), 
+                    It.Is<string>(m => m == "Project Resources/ReSharperTest/Test1/Test1.csproj contains no issues.")),
                 Times.Once());
         }
 
@@ -274,7 +274,7 @@ namespace ReQube.Tests
             Assert.Equal(Path.Combine(solutionDir, "path2"), report.Issues[0].Issue[1].File);
             Assert.Equal(Path.Combine(solutionDir, "path3"), report.Issues[1].Issue[0].File);
         }
-        
+
         [Fact]
         public void RemoveExcludedRules_ShouldFilterRulesCorrectly()
         {
@@ -306,7 +306,7 @@ namespace ReQube.Tests
             AssertEqualIssueTypes(reSharperReport, new[] { "CheckNamespace" }, new[] { "UnusedType.Global" });
 
             // test message filtering
-            reSharperReport = ParseReSharperReport(reportXml);            
+            reSharperReport = ParseReSharperReport(reportXml);
             SonarConverter.RemoveExcludedRules(
                 reSharperReport,
                 "RedundantUsingDirective|UnusedParameter.Global##Parameter 'geocodeResolution'.*|UnusedVariable");
@@ -325,7 +325,7 @@ namespace ReQube.Tests
 
             AssertEqualIssueTypes(
                 reSharperReport,
-                new[] { "CheckNamespace" }, 
+                new[] { "CheckNamespace" },
                 new[] { "UnusedType.Global" });
 
             // test message filtering with full match
@@ -362,8 +362,8 @@ namespace ReQube.Tests
             };
 
             var sonarConverter = GetSonarConverter(
-                new TestReportGenerator { 
-                    SonarReports = new List<ISonarReport> { 
+                new TestReportGenerator {
+                    SonarReports = new List<ISonarReport> {
                         new SonarRoslynReport
                         {
                             ProjectName = "Test1"
@@ -372,7 +372,7 @@ namespace ReQube.Tests
                         {
                             ProjectName = "Test2"
                         }
-                    } 
+                    }
                 },
                 options);
 
@@ -388,14 +388,14 @@ namespace ReQube.Tests
 
             metaDataWriterMock.Verify(
                 x => x.AddReSharperAnalysisPaths(
-                    It.Is<IDictionary<string, string>>(
-                        map => 
-                            map["Test1"] == Path.GetFullPath("Resources/ReSharperTest/Test1/report.json") && 
-                            map["Test2"] == Path.GetFullPath("Resources/ReSharperTest/Test2/src/report.json") &&
+                    It.Is<List<KeyValuePair<string, string>>>(
+                        map =>
+                            map.Single(x=> x.Key == "Test1").Value == Path.GetFullPath("Resources/ReSharperTest/Test1/report.json") &&
+                            map.Single(x=> x.Key == "Test2").Value == Path.GetFullPath("Resources/ReSharperTest/Test2/src/report.json") &&
                             map.Count == 2
                         )), Times.Once);
         }
-        
+
         private void RunGenericSonarConverterTest(string[] reportFiles, Options options)
         {
             foreach (var reportFile in reportFiles)

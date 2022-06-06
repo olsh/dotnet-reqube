@@ -12,14 +12,14 @@ namespace ReQube
     {
         private readonly DirectoryInfo _sonarDirInfo;
 
-        private ILogger Logger { get; } = LoggerFactory.GetLogger();        
+        private ILogger Logger { get; } = LoggerFactory.GetLogger();
 
         public SonarRoslynMetaDataWriter(string sonarDir)
-        {            
-            _sonarDirInfo = new DirectoryInfo(sonarDir);            
+        {
+            _sonarDirInfo = new DirectoryInfo(sonarDir);
         }
 
-        public void AddReSharperAnalysisPaths(IDictionary<string, string> reportPathsByProject)
+        public void AddReSharperAnalysisPaths(List<KeyValuePair<string, string>> reportPathsByProject)
         {
             var projectInfoFiles = _sonarDirInfo.GetFiles(
                 "ProjectInfo.xml",
@@ -35,14 +35,14 @@ namespace ReQube
         }
 
         private void AddReSharperAnalysisPaths(
-            FileInfo projectInfoFile, IDictionary<string, string> reportPathsByProject)
+            FileInfo projectInfoFile, List<KeyValuePair<string, string>> reportPathsByProject)
         {
             var projectInfo = XElement.Load(projectInfoFile.FullName);
             var ns = projectInfo.GetDefaultNamespace();
 
             var projectPath = projectInfo.RequiredElement(ns + "FullPath").Value;
-            reportPathsByProject.TryGetValue(
-                Path.GetFileNameWithoutExtension(projectPath), out var reSharperRoslynFile);
+            var reSharperRoslynFile = reportPathsByProject
+                .Single(x => x.Value == Path.GetFileNameWithoutExtension(projectPath)).Key;
 
             if (reSharperRoslynFile == null || !File.Exists(reSharperRoslynFile))
             {
@@ -57,16 +57,16 @@ namespace ReQube
             var reportFilePathNameAttribute = $"sonar.{sonarLanguage}.roslyn.reportFilePath";
             var projectOutPathNameAttribute = $"sonar.{sonarLanguage}.analyzer.projectOutPath";
 
-            var reportFilePathProperty = 
+            var reportFilePathProperty =
                 analysisSettings
-                .Elements()
-                .FirstOrDefault(p => p.Attribute("Name")?.Value == reportFilePathNameAttribute);
+                    .Elements()
+                    .FirstOrDefault(p => p.Attribute("Name")?.Value == reportFilePathNameAttribute);
 
             if (reportFilePathProperty != null)
             {
-                var reportFilePaths = 
+                var reportFilePaths =
                     reportFilePathProperty.Value
-                    .Split("|").Select(x => x.Trim()).Where(x => !string.IsNullOrEmpty(x)).ToHashSet();
+                        .Split("|").Select(x => x.Trim()).Where(x => !string.IsNullOrEmpty(x)).ToHashSet();
                 reportFilePaths.Add(reSharperRoslynFile);
                 reportFilePathProperty.Value = string.Join("|", reportFilePaths);
             } else
@@ -78,8 +78,8 @@ namespace ReQube
 
             var projectOutPathProperty =
                 analysisSettings
-                .Elements()
-                .FirstOrDefault(p => p.Attribute("Name")?.Value == projectOutPathNameAttribute);
+                    .Elements()
+                    .FirstOrDefault(p => p.Attribute("Name")?.Value == projectOutPathNameAttribute);
 
             if (projectOutPathProperty != null)
             {
