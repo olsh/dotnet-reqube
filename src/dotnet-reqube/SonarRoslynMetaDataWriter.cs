@@ -42,7 +42,8 @@ namespace ReQube
 
             var projectPath = projectInfo.RequiredElement(ns + "FullPath").Value;
             var reSharperRoslynFile = reportPathsByProject
-                .Single(x => x.Value == Path.GetFileNameWithoutExtension(projectPath)).Key;
+                .FirstOrDefault(x => x.Value == Path.GetFileNameWithoutExtension(projectPath))
+                .Key;
 
             if (reSharperRoslynFile == null || !File.Exists(reSharperRoslynFile))
             {
