@@ -3,7 +3,7 @@
 #addin nuget:?package=Cake.Sonar&version=1.1.25
 #addin "Cake.FileHelpers&version=3.2.1"
 
-// set the following envrionement variables before running the cake build:
+// set the following environment variables before running the cake build:
 // sonar:organization, sonar:apikey, sonar:projectKey, sonar:projectName, nuget:projectName,
 // packageReleaseNotes, packageProjectUrl, packageLicenseUrl, repositoryUrl
 

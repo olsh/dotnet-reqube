@@ -12,7 +12,7 @@ namespace ReQube
 {
     public class SonarGenericReportGenerator : SonarBaseReportGenerator
     {
-        private ILogger Logger { get; } = LoggerFactory.GetLogger();
+        private new ILogger Logger { get; } = LoggerFactory.GetLogger();
 
         public override List<ISonarReport> Generate(Report reSharperReport)
         {
