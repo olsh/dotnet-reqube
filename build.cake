@@ -1,7 +1,7 @@
 #tool nuget:?package=MSBuild.SonarQube.Runner.Tool&version=4.8.0
 #tool nuget:?package=JetBrains.ReSharper.CommandLineTools&version=2022.3.1
 #addin nuget:?package=Cake.Sonar&version=1.1.31
-#addin "Cake.FileHelpers&version=6.0.0"
+#addin nuget:?package=Cake.FileHelpers&version=6.0.0
 
 // set the following environment variables before running the cake build:
 // sonar:organization, sonar:apikey, sonar:projectKey, sonar:projectName, nuget:projectName,
@@ -89,25 +89,25 @@ Task("UpdateBuildVersion")
 Task("NugetRestore")
     .Does(() =>
     {
-        DotNetCoreRestore(solutionFile);
+        DotNetRestore(solutionFile);
     });
 
 Task("Build")
     .Does(() =>
     {
-        var settings = new DotNetCoreBuildSettings
+        var settings = new DotNetBuildSettings
         {
             Configuration = buildConfiguration
         };
 
-        DotNetCoreBuild(solutionFile, settings);
+        DotNetBuild(solutionFile, settings);
     });
 
 Task("Test")
     .IsDependentOn("Build")
     .Does(cxt =>
     {
-        var testSettings = new DotNetCoreTestSettings()
+        var testSettings = new DotNetTestSettings()
         {
             Configuration = buildConfiguration,
             NoBuild = true
@@ -138,7 +138,7 @@ Task("Test")
 
             Information($"Test DLL is {dllFile}.");
 
-            DotNetCoreTest(project.FullPath, testSettings);
+            DotNetTest(project.FullPath, testSettings);
             new CoverletTool(
                 cxt.FileSystem, cxt.Environment, cxt.ProcessRunner, cxt.Tools).Run(dllFile, project, coverletSettings);
         }    
@@ -152,7 +152,8 @@ Task("ReSharperInspect")
             solutionFile, 
             new InspectCodeSettings 
             {
-                OutputFile = File("resharper-report.xml")
+                OutputFile = File("resharper-report.xml"),
+                Build = true
             });
 
         if (isPullRequest)
@@ -220,7 +221,7 @@ Task("NugetPack")
             EnvironmentVariable("packageLicenseUrl") ?? "https://raw.githubusercontent.com/olsh/reqube/master/LICENSE";
         var repositoryUrl = EnvironmentVariable("repositoryUrl") ?? "https://github.com/olsh/reqube"; 
 
-        var settings = new DotNetCorePackSettings
+        var settings = new DotNetPackSettings
         {
             Configuration = buildConfiguration,
             OutputDirectory = ".",
@@ -234,7 +235,7 @@ Task("NugetPack")
                     .Append($"-p:RepositoryUrl={repositoryUrl}")
         };
 
-        DotNetCorePack(projectFolder, settings);
+        DotNetPack(projectFolder, settings);
     });
 
 Task("CreateArtifact")
