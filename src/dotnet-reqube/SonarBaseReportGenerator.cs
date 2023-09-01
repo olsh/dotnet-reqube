@@ -19,6 +19,14 @@ namespace ReQube
 
         protected void ReadIssueFile(string file, ref string lastLoadedFilePath, ref string lastLoadedFileContent, ref string[] lastLoadedFileLines)
         {
+            if (!File.Exists(file))
+            {
+                lastLoadedFilePath = "";
+                lastLoadedFileContent = "";
+                lastLoadedFileLines = null;
+                return;
+            }
+
             if (lastLoadedFilePath != file)
             {
                 lastLoadedFilePath = file;
@@ -40,7 +48,7 @@ namespace ReQube
 
             var lineOffset = FileUtils.FindLineOffset(fileContent, globalStart, globalEnd);
 
-            if (lastLoadedFileLines.Length < lineNumber)
+            if (lastLoadedFileLines == null || lastLoadedFileLines.Length < lineNumber)
             {
                 Logger.Warning(
                     "Unable to find line {LineNumber} in file {FilePath}, fallback to the entire line highlighting",
@@ -62,6 +70,11 @@ namespace ReQube
                     lineNumber);
 
                 return (null, null);
+            }
+
+            if (lineOffset.StartColumn == lineOffset.EndColumn)
+            {
+                lineOffset.EndColumn++;
             }
 
             return lineOffset;
