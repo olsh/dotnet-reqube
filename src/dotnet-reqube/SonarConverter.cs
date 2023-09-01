@@ -24,7 +24,7 @@ namespace ReQube
             = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
         
         private readonly Options _options;
-        private readonly IDictionary<string, string> _reportPathsByProject = new Dictionary<string, string>();
+        private readonly List<KeyValuePair<string, string>> _reportPathsByProject = new List<KeyValuePair<string, string>>();
 
         public SonarReportGeneratorFactory SonarReportGeneratorFactory { get; set; }
             = new SonarReportGeneratorFactory();
@@ -267,7 +267,7 @@ namespace ReQube
 
             if (sonarReport.ProjectName != null)
             {
-                _reportPathsByProject.Add(sonarReport.ProjectName, Path.GetFullPath(filePath));
+                _reportPathsByProject.Add(new KeyValuePair<string, string>(sonarReport.ProjectName, Path.GetFullPath(filePath)));
             }
         }
 

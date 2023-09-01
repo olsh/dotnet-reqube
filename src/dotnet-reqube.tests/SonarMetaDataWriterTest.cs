@@ -26,11 +26,11 @@ namespace ReQube.Tests
             CreateSonarAndProjectStructure();
 
             var sonarMetaDataWriter = new SonarRoslynMetaDataWriter(SonarDir);
-            var reportPathsByProject = new Dictionary<string, string>();
+            var reportPathsByProject = new List<KeyValuePair<string, string>>();
 
             for (int i = 0; i < 5; i++)
             {
-                reportPathsByProject.Add($"test{i}", Path.Combine(ProjectDir, $"test{i}.ReSharper.RoslynCA.json"));
+                reportPathsByProject.Add(new KeyValuePair<string, string>($"test{i}", Path.Combine(ProjectDir, $"test{i}.ReSharper.RoslynCA.json")));
             }
 
             sonarMetaDataWriter.AddReSharperAnalysisPaths(reportPathsByProject);
