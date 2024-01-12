@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
@@ -149,7 +150,7 @@ namespace ReQube.Tests
 
                     AssertEqualProjectInfoXml(expected, actual);
                 }
-                catch (AssertActualExpectedException)
+                catch (Exception e) when (e is IAssertionException)  
                 {
                     _output.WriteLine($"Project {i}, expected XML: {expected}, actual XML: {actual}.");
                     throw;
